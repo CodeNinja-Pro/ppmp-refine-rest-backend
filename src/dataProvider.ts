@@ -40,7 +40,7 @@ const generateFilter = (filters?: CrudFilters) => {
 export const dataProvider = (axios: AxiosInstance): DataProvider => {
   return {
     ...restDataProvider(API_URL, axios),
-    getList: async ({ resource, pagination, filters, meta }) => {
+    getList: async ({ resource, pagination, filters, meta, sorters }) => {
       const url = `${API_URL}/${resource}`;
 
       // pagination
@@ -48,6 +48,8 @@ export const dataProvider = (axios: AxiosInstance): DataProvider => {
       const pageSize = pagination?.pageSize || 10;
 
       const queryFilters = generateFilter(filters);
+
+      // 
 
       const query: {
         limit: number;
@@ -60,11 +62,11 @@ export const dataProvider = (axios: AxiosInstance): DataProvider => {
       const { data } = await axios.get(
         `${url}?${stringify(query)}&${stringify(queryFilters)}`
       );
+      // debugger;
       const records = {
-        data: data[meta?.resource ?? resource],
-        total: data[`${meta?.resource ?? resource}Count`] || undefined,
+        data: data.data,
+        total: data.data.length
       }
-
       return records;
     },
     getOne: async ({ resource, id, meta }) => {
@@ -75,7 +77,7 @@ export const dataProvider = (axios: AxiosInstance): DataProvider => {
       const { data } = await axios.get(url);
 
       return {
-        data: data[meta?.resource || resource],
+        data: data.data,
       };
     },
     create: async ({ resource, variables, meta }) => {
@@ -93,7 +95,7 @@ export const dataProvider = (axios: AxiosInstance): DataProvider => {
       });
 
       return {
-        data: data[meta?.resource || resource],
+        data: data.data,
       };
     },
     update: async ({ resource, id, variables, meta }) => {
