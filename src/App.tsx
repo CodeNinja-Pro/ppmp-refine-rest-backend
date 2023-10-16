@@ -18,13 +18,15 @@ import routerBindings, {
   NavigateToResource,
   UnsavedChangesNotifier,
 } from "@refinedev/react-router-v6";
-import dataProvider from "@refinedev/simple-rest";
+// import dataProvider from "@refinedev/simple-rest";
 import { useTranslation } from "react-i18next";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import { authProvider } from "./authProvider";
 import { AppIcon } from "./components/app-icon";
 import { Header } from "./components/header";
 import { ColorModeContextProvider } from "./contexts/color-mode";
+// import dataProvider from "./data-provider";
+import { dataProvider } from "./rest-data-provider";
 import {
   BlogPostCreate,
   BlogPostEdit,
@@ -37,9 +39,14 @@ import {
   CategoryList,
   CategoryShow,
 } from "./pages/categories";
+
+import {
+  UnitCreate, UnitEdit, UnitList
+} from "./pages/units";
 import { ForgotPassword } from "./pages/forgotPassword";
 import { Login } from "./pages/login";
 import { Register } from "./pages/register";
+import { Button } from "@mui/material";
 
 function App() {
   const { t, i18n } = useTranslation();
@@ -58,10 +65,10 @@ function App() {
           <CssBaseline />
           <GlobalStyles styles={{ html: { WebkitFontSmoothing: "auto" } }} />
           <RefineSnackbarProvider>
-            <DevtoolsProvider>
+            {/* <DevtoolsProvider> */}
               <Refine
-                dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
-                // dataProvider={dataProvider("http:/127.0.0.1:8000")}
+                // dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
+                dataProvider={dataProvider("http://127.0.0.1:8000/api")}
                 notificationProvider={notificationProvider}
                 authProvider={authProvider}
                 i18nProvider={i18nProvider}
@@ -87,6 +94,16 @@ function App() {
                       canDelete: true,
                     },
                   },
+                  {
+                    name: "units",
+                    list: "/units",
+                    create: "/units/create",
+                    edit: "/units/edit/:id",
+                    show: "/units/show/:id",
+                    meta: {
+                      canDelete: true,
+                    },
+                  },
                 ]}
                 options={{
                   syncWithLocation: true,
@@ -95,6 +112,11 @@ function App() {
                 }}
               >
                 <Routes>
+                    {/* <Route path="/units">
+                      <Route index element={<UnitList />} />
+                      <Route path="create" element={<UnitCreate />} />
+                      <Route path="edit/:id" element={<UnitEdit />} />
+                    </Route> */}
                   <Route
                     element={
                       <Authenticated
@@ -116,10 +138,15 @@ function App() {
                       </Authenticated>
                     }
                   >
-                    <Route
+                      <Route path="/units">
+                      <Route index element={<UnitList />} />
+                      <Route path="create" element={<UnitCreate />} />
+                      <Route path="edit/:id" element={<UnitEdit />} />
+                    </Route>
+                    {/* <Route
                       index
                       element={<NavigateToResource resource="blog_posts" />}
-                    />
+                    /> */}
                     <Route path="/blog-posts">
                       <Route index element={<BlogPostList />} />
                       <Route path="create" element={<BlogPostCreate />} />
@@ -132,6 +159,7 @@ function App() {
                       <Route path="edit/:id" element={<CategoryEdit />} />
                       <Route path="show/:id" element={<CategoryShow />} />
                     </Route>
+                    
                     <Route path="*" element={<ErrorComponent />} />
                   </Route>
                   <Route
@@ -144,6 +172,18 @@ function App() {
                       </Authenticated>
                     }
                   >
+                    <Route path="/categories">
+                      <Route index element={<CategoryList />} />
+                      <Route path="create" element={<CategoryCreate />} />
+                      <Route path="edit/:id" element={<CategoryEdit />} />
+                      <Route path="show/:id" element={<CategoryShow />} />
+                    </Route> 
+                    <Route path="/units">
+                      <Route index element={<UnitList />} />
+                      <Route path="create" element={<UnitCreate />} />
+                      <Route path="edit/:id" element={<UnitEdit />} />
+                      {/* <Route path="show/:id" element={<BlogPostShow />} /> */}
+                    </Route>
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
                     <Route
@@ -158,7 +198,7 @@ function App() {
                 <DocumentTitleHandler />
               </Refine>
               <DevtoolsPanel />
-            </DevtoolsProvider>
+            {/* </DevtoolsProvider> */}
           </RefineSnackbarProvider>
         </ColorModeContextProvider>
       </RefineKbarProvider>

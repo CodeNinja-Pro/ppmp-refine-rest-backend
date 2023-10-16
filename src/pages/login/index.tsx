@@ -19,7 +19,7 @@ export const Login = () => {
       title={<ThemedTitleV2 collapsed={false} text="PPMP" icon={<AppIcon />} />}
       wrapperProps={authWrapperProps}
       formProps={{
-        defaultValues: { email: "demo@refine.dev", password: "demodemo" },
+        defaultValues: { email: "admin@demo.com", password: "12345678" },
       }}
     />
   );
