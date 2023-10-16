@@ -18,15 +18,21 @@ import routerBindings, {
   NavigateToResource,
   UnsavedChangesNotifier,
 } from "@refinedev/react-router-v6";
-// import dataProvider from "@refinedev/simple-rest";
+
 import { useTranslation } from "react-i18next";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
+// import dataProvider from "@refinedev/simple-rest";
+
+import axios, { AxiosRequestConfig } from "axios";
+
 import { authProvider } from "./authProvider";
+import { dataProvider } from "./dataProvider";
+
+
 import { AppIcon } from "./components/app-icon";
 import { Header } from "./components/header";
 import { ColorModeContextProvider } from "./contexts/color-mode";
 // import dataProvider from "./data-provider";
-import { dataProvider } from "./rest-data-provider";
 import {
   BlogPostCreate,
   BlogPostEdit,
@@ -47,6 +53,48 @@ import { ForgotPassword } from "./pages/forgotPassword";
 import { Login } from "./pages/login";
 import { Register } from "./pages/register";
 import { Button } from "@mui/material";
+import { TOKEN_KEY } from "./constants";
+
+
+
+const axiosInstance = axios.create();
+
+axiosInstance.interceptors.request.use((request: AxiosRequestConfig) => {
+  const token = localStorage.getItem(TOKEN_KEY);
+  if (token) {
+    if (request.headers) {
+      request.headers["Authorization"] = `Bearer ${token}`;
+    } else {
+      request.headers = {
+        Authorization: `Bearer ${token}`,
+      };
+    }
+  }
+
+  return request;
+});
+
+axiosInstance.interceptors.response.use(
+  (response) => {
+      return response;
+  },
+  (error) => {
+      const customError: HttpError = {
+        ...error,
+        errors: error.response?.data?.errors,
+        message: error.response?.data?.message,
+        statusCode: error.response?.status,
+      };
+
+      return Promise.reject(customError);
+  },
+);
+
+
+
+
+
+
 
 function App() {
   const { t, i18n } = useTranslation();
@@ -68,9 +116,9 @@ function App() {
             {/* <DevtoolsProvider> */}
               <Refine
                 // dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
-                dataProvider={dataProvider("http://127.0.0.1:8000/api")}
+                dataProvider={dataProvider(axiosInstance)}
                 notificationProvider={notificationProvider}
-                authProvider={authProvider}
+                authProvider={authProvider(axiosInstance)}
                 i18nProvider={i18nProvider}
                 routerProvider={routerBindings}
                 resources={[
