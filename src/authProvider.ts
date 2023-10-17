@@ -12,7 +12,7 @@ export const authProvider = (axiosInstance: AxiosInstance): AuthBindings => ({
 
   login: async ( user: {email: string; password: string}) => {
     try {
-      const { data } = await axios.post(`${AUTH_URL}/login`, {
+      const { data } = await axiosInstance.post(`${AUTH_URL}/login`, {
         ...user,
       });
 
@@ -31,6 +31,7 @@ export const authProvider = (axiosInstance: AxiosInstance): AuthBindings => ({
   },
   logout: async (props) => {
     localStorage.removeItem(TOKEN_KEY);
+    localStorage.removeItem("permissions");
     return {
       success: true,
       redirectTo: props?.redirectPath || "/login",
@@ -51,11 +52,25 @@ export const authProvider = (axiosInstance: AxiosInstance): AuthBindings => ({
   },
   getPermissions: async () => {
     console.log("getPermissions")
-    await axios.get(AUTH_URL+"api/abilities").then(res => {
-      const permissions = res?.data;
-      console.log("getPermission: ", permissions);
-    });
-    return null;
+    const token = localStorage.getItem(TOKEN_KEY);
+    if (!token) {
+      return []
+    }
+    const permissions = localStorage.getItem("permissions");
+    if (permissions) {
+      return JSON.parse(permissions);
+    }
+    try {
+      const res = await axiosInstance.get(AUTH_URL+"/api/abilities");
+        const permissionsData = res?.data;
+        localStorage.setItem("permissions", JSON.stringify(permissionsData));
+        console.log("getPermission: ", permissionsData);
+        return permissionsData;
+    } catch (error) {
+      console.log(error);
+    }
+    return [];
+    // return ["admin"]
   },
   getIdentity: async () => {
     const token = localStorage.getItem(TOKEN_KEY);
@@ -76,3 +91,26 @@ export const authProvider = (axiosInstance: AxiosInstance): AuthBindings => ({
     return { error };
   },
 });
+
+
+export const getPermissions =  async (axiosInstance: AxiosInstance) => {
+  console.log("getPermissions")
+  const token = localStorage.getItem(TOKEN_KEY);
+  if (!token) {
+    return []
+  }
+  const permissions = localStorage.getItem("permissions");
+  if (permissions) {
+    return JSON.parse(permissions);
+  }
+  try {
+    const res = await axiosInstance.get(AUTH_URL+"/api/abilities");
+      const permissionsData = res?.data;
+      localStorage.setItem("permissions", JSON.stringify(permissionsData));
+      console.log("getPermission: ", permissionsData);
+      return permissionsData;
+  } catch (error) {
+    console.log(error);
+  }
+  return [];
+};

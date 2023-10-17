@@ -1,13 +1,20 @@
-// import { authProvider } from "./authProvider"
+export const accessControlProvider = {
+    can: async ({ resource, action, params }) => {
 
-// export const accessControlProvider = {
-//     can:async ({resource, action}) => {
-
-//         const permissions = await authProvider.getPermissions();
-//         if (permissions.include(resource)) {
-            
-//         }
-//         if (authProvider.)
-        
-//     }
-// }
+      const permissionsData = await getPermissions(axiosInstance);
+      if (permissionsData?.includes(`${resource}-${action}`)) {
+        return { can: true };
+      } else {
+        return {
+          can: false,
+          reason: "Unauthorized",
+      };
+      }
+    },
+    options: {
+        buttons: {
+            enableAccessControl: true,
+            hideIfUnauthorized: false,
+        },
+    },
+}

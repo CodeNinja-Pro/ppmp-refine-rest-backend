@@ -1,4 +1,4 @@
-import { Authenticated, GitHubBanner, HttpError, Refine } from "@refinedev/core";
+import { Authenticated, GitHubBanner, HttpError, Refine, usePermissions } from "@refinedev/core";
 import { DevtoolsPanel, DevtoolsProvider } from "@refinedev/devtools";
 import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
 
@@ -25,8 +25,10 @@ import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 
 import axios, { AxiosRequestConfig } from "axios";
 
-import { authProvider } from "./authProvider";
-import { dataProvider } from "./dataProvider";
+import { authProvider, getPermissions } from "./authProvider";
+// import { dataProvider } from "./dataProvider";
+import {dataProvider} from "./rest-data-provider";
+import {accessControlProvider} from "./accessControlProvider";
 
 
 import { AppIcon } from "./components/app-icon";
@@ -47,13 +49,18 @@ import {
 } from "./pages/categories";
 
 import {
-  UnitCreate, UnitEdit, UnitList
+  UnitCreate, UnitEdit, UnitList, UnitShow
 } from "./pages/units";
+import {
+  ProductCreate, ProductEdit, ProductList, ProductShow
+} from "./pages/products";
+
 import { ForgotPassword } from "./pages/forgotPassword";
 import { Login } from "./pages/login";
 import { Register } from "./pages/register";
 import { Button } from "@mui/material";
-import { TOKEN_KEY } from "./constants";
+import { TOKEN_KEY, API_URL } from './constants';
+
 
 
 
@@ -98,6 +105,12 @@ axiosInstance.interceptors.response.use(
 
 function App() {
   const { t, i18n } = useTranslation();
+  // const {data: permissionsData} = usePermissions();
+  // const {data: permissionsData = []} = usePermissions<Array<string>>();
+
+  // const {data}
+  // const permissionsData = ["admin"];
+  
 
   const i18nProvider = {
     translate: (key: string, params: object) => t(key, params),
@@ -116,11 +129,31 @@ function App() {
             {/* <DevtoolsProvider> */}
               <Refine
                 // dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
-                dataProvider={dataProvider(axiosInstance)}
+                dataProvider={dataProvider(API_URL, axiosInstance)}
                 notificationProvider={notificationProvider}
                 authProvider={authProvider(axiosInstance)}
                 i18nProvider={i18nProvider}
                 routerProvider={routerBindings}
+                accessControlProvider={{
+                  can: async ({ resource, action, params }) => {
+
+                    const permissionsData = await getPermissions(axiosInstance);
+                    if (permissionsData?.includes(`${resource}-${action}`)) {
+                      return { can: true };
+                    } else {
+                      return {
+                        can: true,
+                        reason: "Unauthorized",
+                    };
+                    }
+                  },
+                  options: {
+                      buttons: {
+                          enableAccessControl: true,
+                          hideIfUnauthorized: false,
+                      },
+                  },
+              }}
                 resources={[
                   {
                     name: "blog_posts",
@@ -130,6 +163,7 @@ function App() {
                     show: "/blog-posts/show/:id",
                     meta: {
                       canDelete: true,
+                      // hide: true
                     },
                   },
                   {
@@ -149,6 +183,17 @@ function App() {
                     edit: "/units/edit/:id",
                     show: "/units/show/:id",
                     meta: {
+                      // hide: true,
+                      canDelete: true,
+                    },
+                  },
+                  {
+                    name: "products",
+                    list: "/products",
+                    create: "/products/create",
+                    edit: "/products/edit/:id",
+                    show: "/products/show/:id",
+                    meta: {
                       canDelete: true,
                     },
                   },
@@ -157,6 +202,8 @@ function App() {
                   syncWithLocation: true,
                   warnWhenUnsavedChanges: true,
                   projectId: "vWDU4h-MijopK-kwqDNS",
+                  disableTelemetry: true,
+                  undoableTimeout: 3500 
                 }}
               >
                 <Routes>
@@ -190,6 +237,7 @@ function App() {
                       <Route index element={<UnitList />} />
                       <Route path="create" element={<UnitCreate />} />
                       <Route path="edit/:id" element={<UnitEdit />} />
+                      <Route path="show/:id" element={<UnitShow />} />
                     </Route>
                     {/* <Route
                       index
@@ -202,6 +250,12 @@ function App() {
                       <Route path="show/:id" element={<BlogPostShow />} />
                     </Route>
                     <Route path="/categories">
+                      <Route index element={<CategoryList />} />
+                      <Route path="create" element={<CategoryCreate />} />
+                      <Route path="edit/:id" element={<CategoryEdit />} />
+                      <Route path="show/:id" element={<CategoryShow />} />
+                    </Route>
+                    <Route path="/products">
                       <Route index element={<CategoryList />} />
                       <Route path="create" element={<CategoryCreate />} />
                       <Route path="edit/:id" element={<CategoryEdit />} />

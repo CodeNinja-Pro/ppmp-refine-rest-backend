@@ -54,6 +54,8 @@ export const dataProvider = (axios: AxiosInstance): DataProvider => {
       const query: {
         limit: number;
         offset: number;
+        sort?: string;
+        order?: string
       } = {
         offset: (current - 1) * pageSize,
         limit: pageSize,
@@ -62,7 +64,6 @@ export const dataProvider = (axios: AxiosInstance): DataProvider => {
       const { data } = await axios.get(
         `${url}?${stringify(query)}&${stringify(queryFilters)}`
       );
-      // debugger;
       const records = {
         data: data.data,
         total: data.data.length

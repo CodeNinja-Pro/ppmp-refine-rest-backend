@@ -9,11 +9,12 @@ import Select from "@mui/material/Select";
 import Stack from "@mui/material/Stack";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import { useGetIdentity, useGetLocale, useSetLocale } from "@refinedev/core";
+import { useGetIdentity, useGetLocale, usePermissions, useSetLocale } from "@refinedev/core";
 import { HamburgerMenu, RefineThemedLayoutV2HeaderProps } from "@refinedev/mui";
 import i18n from "i18next";
 import React, { useContext } from "react";
 import { ColorModeContext } from "../../contexts/color-mode";
+import { Button } from "@mui/material";
 
 type IUser = {
   id: number;
@@ -31,6 +32,7 @@ export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = ({
   const changeLanguage = useSetLocale();
   const locale = useGetLocale();
   const currentLocale = locale();
+
 
   return (
     <AppBar position={sticky ? "sticky" : "relative"}>

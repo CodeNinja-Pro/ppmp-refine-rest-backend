@@ -24,37 +24,34 @@ export const dataProvider = (
     const queryFilters = generateFilter(filters);
 
     const query: {
-      _start?: number;
-      _end?: number;
-      _sort?: string;
-      _order?: string;
+      limit?: number;
+      offset?: number;
+      sort?: string;
+      order?: string;
     } = {};
 
     if (mode === "server") {
-      query._start = (current - 1) * pageSize;
-      query._end = current * pageSize;
+      query.offset = (current - 1) * pageSize;
+      query.limit = pageSize;
     }
 
     const generatedSort = generateSort(sorters);
     if (generatedSort) {
       const { _sort, _order } = generatedSort;
-      query._sort = _sort.join(",");
-      query._order = _order.join(",");
+      query.sort = _sort.join(",");
+      query.order = _order.join(",");
     }
 
-    const { data, headers } = await httpClient[requestMethod](
-      `${url}?${stringify(query)}&${stringify(queryFilters)}`,
-      {
-        headers: headersFromMeta,
-      }
-    );
-
+    const {data, headers} = await axiosInstance.get(`${url}?${stringify(query)}&${stringify(queryFilters)}`, {
+      headers: headersFromMeta,
+      method: requestMethod
+    })
     const total = +headers["x-total-count"];
-
-    return {
-      data,
-      total: total || data.length,
-    };
+    const records = {
+      data: data.data,
+      total: total || data.data.length
+    }
+    return records;
   },
 
   getMany: async ({ resource, ids, meta }) => {
@@ -67,7 +64,7 @@ export const dataProvider = (
     );
 
     return {
-      data,
+      data: data.data
     };
   },
 
@@ -82,7 +79,7 @@ export const dataProvider = (
     });
 
     return {
-      data,
+      data: data.data
     };
   },
 
@@ -97,7 +94,7 @@ export const dataProvider = (
     });
 
     return {
-      data,
+      data: data.data
     };
   },
 
@@ -110,7 +107,7 @@ export const dataProvider = (
     const { data } = await httpClient[requestMethod](url, { headers });
 
     return {
-      data,
+      data: data.data
     };
   },
 
@@ -126,7 +123,7 @@ export const dataProvider = (
     });
 
     return {
-      data,
+      data: data.data
     };
   },
 
@@ -150,8 +147,8 @@ export const dataProvider = (
       if (generatedSort) {
         const { _sort, _order } = generatedSort;
         const sortQuery = {
-          _sort: _sort.join(","),
-          _order: _order.join(","),
+          sort: _sort.join(","),
+          order: _order.join(","),
         };
         requestUrl = `${requestUrl}&${stringify(sortQuery)}`;
       }
