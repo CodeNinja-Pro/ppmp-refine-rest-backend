@@ -1,135 +1,152 @@
-import { CrudFilters, CrudOperators, DataProvider } from "@refinedev/core";
-import restDataProvider from "@refinedev/simple-rest";
-import { stringify } from "query-string";
-import { AxiosInstance } from "axios";
+// import { CrudFilters, CrudOperators, DataProvider } from "@refinedev/core";
+// import restDataProvider from "@refinedev/simple-rest";
+// import { stringify } from "query-string";
+// import { AxiosInstance } from "axios";
 
-//TEMP URL
-//const API_URL = "https://refine-real-world.herokuapp.com/api";
+// //TEMP URL
+// //const API_URL = "https://refine-real-world.herokuapp.com/api";
 
-import { API_URL } from "./constants";
+// import { API_URL } from "./constants";
+// import { axiosInstance } from "./rest-data-provider/utils";
 
-const mapOperator = (operator: CrudOperators): string => {
-  switch (operator) {
-    case "eq":
-      return "";
-    default:
-      throw new Error(`Operator ${operator} is not supported`);
-  }
-};
+// const mapOperator = (operator: CrudOperators): string => {
+//   switch (operator) {
+//     case "eq":
+//       return "";
+//     default:
+//       throw new Error(`Operator ${operator} is not supported`);
+//   }
+// };
 
-const generateFilter = (filters?: CrudFilters) => {
-  const queryFilters: { [key: string]: string } = {};
-  if (filters) {
-    filters.map((filter: any) => {
-      if (
-        filter.operator !== "or" &&
-        filter.operator !== "and" &&
-        "field" in filter
-      ) {
-        const { field, operator, value } = filter;
+// const generateFilter = (filters?: CrudFilters) => {
+//   const queryFilters: { [key: string]: string } = {};
+//   if (filters) {
+//     filters.map((filter: any) => {
+//       if (
+//         filter.operator !== "or" &&
+//         filter.operator !== "and" &&
+//         "field" in filter
+//       ) {
+//         const { field, operator, value } = filter;
 
-        const mappedOperator = mapOperator(operator);
-        queryFilters[`${field}${mappedOperator}`] = value;
-      }
-    });
-  }
+//         const mappedOperator = mapOperator(operator);
+//         queryFilters[`${field}${mappedOperator}`] = value;
+//       }
+//     });
+//   }
 
-  return queryFilters;
-};
+//   return queryFilters;
+// };
 
-export const dataProvider = (axios: AxiosInstance): DataProvider => {
-  return {
-    ...restDataProvider(API_URL, axios),
-    getList: async ({ resource, pagination, filters, meta, sorters }) => {
-      const url = `${API_URL}/${resource}`;
+// export const dataProvider = (axios: AxiosInstance): DataProvider => {
+//   return {
+//     ...restDataProvider(API_URL, axios),
+//     getList: async ({ resource, pagination, filters, meta, sorters }) => {
+//       const url = `${API_URL}/${resource}`;
 
-      // pagination
-      const current = pagination?.current || 1;
-      const pageSize = pagination?.pageSize || 10;
+//       // pagination
+//       const current = pagination?.current || 1;
+//       const pageSize = pagination?.pageSize || 10;
 
-      const queryFilters = generateFilter(filters);
+//       const queryFilters = generateFilter(filters);
 
-      // 
+//       // 
 
-      const query: {
-        limit: number;
-        offset: number;
-        sort?: string;
-        order?: string
-      } = {
-        offset: (current - 1) * pageSize,
-        limit: pageSize,
-      };
+//       const query: {
+//         limit: number;
+//         offset: number;
+//         sort?: string;
+//         order?: string
+//       } = {
+//         offset: (current - 1) * pageSize,
+//         limit: pageSize,
+//       };
 
-      const { data } = await axios.get(
-        `${url}?${stringify(query)}&${stringify(queryFilters)}`
-      );
-      const records = {
-        data: data.data,
-        total: data.data.length
-      }
-      return records;
-    },
-    getOne: async ({ resource, id, meta }) => {
-      const url = meta?.getComments
-        ? `${API_URL}/${resource}/${id}/comments`
-        : `${API_URL}/${resource}/${id}`;
+//       // const { data } = await axios.get(
+//       //   `${url}?${stringify(query)}&${stringify(queryFilters)}`
+//       // );
 
-      const { data } = await axios.get(url);
+//       try {
+//         const { data, headers } = await axios.get(
+//           `${url}?${stringify(query)}&${stringify(queryFilters)}`);
+  
+//         const total = +data?.meta?.total || data?.data?.length || 0;
+//         console.log(total);
+  
+  
+//         const records = {
+//           data: data.data,
+//           total
+//         }
+//         return records;
+//       } catch (err) {
+//         console.log("List fetch failed:");
+//         return {
+//           data: [],
+//           total: 0
+//         }
+//       }
+//     },
+//     getOne: async ({ resource, id, meta }) => {
+//       const url = meta?.getComments
+//         ? `${API_URL}/${resource}/${id}/comments`
+//         : `${API_URL}/${resource}/${id}`;
 
-      return {
-        data: data.data,
-      };
-    },
-    create: async ({ resource, variables, meta }) => {
-      const url = `${API_URL}/${resource}`;
+//       const { data } = await axios.get(url);
 
-      const { headers } = meta ?? {};
+//       return {
+//         data: data.data,
+//       };
+//     },
+//     create: async ({ resource, variables, meta }) => {
+//       const url = `${API_URL}/${resource}`;
 
-      const ignoreResourceWrapper = meta?.ignoreResourceWrapper ?? false;
-      const newVariables = ignoreResourceWrapper ? variables : {
-        [meta?.resource || resource]: variables,
-      };
+//       const { headers } = meta ?? {};
 
-      const { data } = await axios.post(url, newVariables, {
-        headers,
-      });
+//       const ignoreResourceWrapper = meta?.ignoreResourceWrapper ?? false;
+//       const newVariables = ignoreResourceWrapper ? variables : {
+//         [meta?.resource || resource]: variables,
+//       };
 
-      return {
-        data: data.data,
-      };
-    },
-    update: async ({ resource, id, variables, meta }) => {
-      const url = meta?.URLSuffix
-        ? `${API_URL}/${resource}/${id}/${meta.URLSuffix}`
-        : `${API_URL}/${resource}/${id}`;
+//       const { data } = await axios.post(url, newVariables, {
+//         headers,
+//       });
 
-      const ignoreResourceWrapper = meta?.ignoreResourceWrapper ?? false;
-      const newVariables = ignoreResourceWrapper ? variables : {
-        [meta?.resource || resource]: variables,
-      };
+//       return {
+//         data: data.data,
+//       };
+//     },
+//     update: async ({ resource, id, variables, meta }) => {
+//       const url = meta?.URLSuffix
+//         ? `${API_URL}/${resource}/${id}/${meta.URLSuffix}`
+//         : `${API_URL}/${resource}/${id}`;
 
-      const { data } = meta?.URLSuffix
-        ? await axios.post(url)
-        : await axios.put(url, newVariables);
+//       const ignoreResourceWrapper = meta?.ignoreResourceWrapper ?? false;
+//       const newVariables = ignoreResourceWrapper ? variables : {
+//         [meta?.resource || resource]: variables,
+//       };
 
-      return {
-        data: data[meta?.resource || resource],
-      };
-    },
+//       const { data } = meta?.URLSuffix
+//         ? await axios.post(url)
+//         : await axios.put(url, newVariables);
 
-    deleteOne: async ({ resource, id, variables, meta }) => {
-      const url = meta?.URLSuffix
-        ? `${API_URL}/${resource}/${id}/${meta.URLSuffix}`
-        : `${API_URL}/${resource}/${id}`;
+//       return {
+//         data: data[meta?.resource || resource],
+//       };
+//     },
 
-      const { data } = await axios.delete(url, {
-        data: variables,
-      });
+//     deleteOne: async ({ resource, id, variables, meta }) => {
+//       const url = meta?.URLSuffix
+//         ? `${API_URL}/${resource}/${id}/${meta.URLSuffix}`
+//         : `${API_URL}/${resource}/${id}`;
 
-      return {
-        data,
-      };
-    },
-  };
-};
+//       const { data } = await axios.delete(url, {
+//         data: variables,
+//       });
+
+//       return {
+//         data,
+//       };
+//     },
+//   };
+// };

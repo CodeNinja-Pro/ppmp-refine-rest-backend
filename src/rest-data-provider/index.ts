@@ -42,16 +42,26 @@ export const dataProvider = (
       query.order = _order.join(",");
     }
 
-    const {data, headers} = await axiosInstance.get(`${url}?${stringify(query)}&${stringify(queryFilters)}`, {
-      headers: headersFromMeta,
-      method: requestMethod
-    })
-    const total = +headers["x-total-count"];
-    const records = {
-      data: data.data,
-      total: total || data.data.length
+    try {
+        const {data, headers} = await axiosInstance.get(`${url}?${stringify(query)}&${stringify(queryFilters)}`, {
+        headers: headersFromMeta,
+        method: requestMethod
+      })
+      const total = +data?.meta?.total || data?.data?.length || 0;
+      console.log(total);
+      const records = {
+        data: data.data,
+        total
+      }
+      console.log(records);
+      return records;
+    } catch (error) {
+      console.log(error);
+      return {
+        data: [],
+        total: 0
+      }
     }
-    return records;
   },
 
   getMany: async ({ resource, ids, meta }) => {

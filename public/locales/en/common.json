@@ -129,6 +129,8 @@
     "categories": "Categories",
     "fields": {
       "id": "Id",
+      "name": "Name",
+      "created_at": "Created At",
       "title": "Title",
       "createdAt": "Created At"
     },
@@ -137,6 +139,32 @@
       "edit": "Edit Category",
       "list": "Categories",
       "show": "Show Category"
+    }
+  },
+  "units": {
+    "units": "Units",
+    "fields": {
+      "id": "Id",
+      "name": "Name",
+      "created_at": "Created At"
+    }
+  },
+  "permissions": {
+    "permissions": "Permissions",
+    "fields": {
+      "id": "Id",
+      "name": "Name",
+      "guard_name": "Guard",
+      "created_at": "Created At"
+    }
+  },
+  "roles": {
+    "permissions": "Permissions",
+    "fields": {
+      "id": "Id",
+      "name": "Name",
+      "guard_name": "Guard",
+      "created_at": "Created At"
     }
   },
   "documentTitle": {

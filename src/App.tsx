@@ -12,6 +12,9 @@ import {
 
 import CssBaseline from "@mui/material/CssBaseline";
 import GlobalStyles from "@mui/material/GlobalStyles";
+
+import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlined';
+
 import routerBindings, {
   CatchAllNavigate,
   DocumentTitleHandler,
@@ -64,6 +67,7 @@ import { Login } from "./pages/login";
 import { Register } from "./pages/register";
 import { Button } from "@mui/material";
 import { TOKEN_KEY, API_URL } from './constants';
+import { AccountCircleOutlined, CategoryOutlined, LocalMallOutlined, LockOutlined, PeopleOutlineRounded, ProductionQuantityLimitsOutlined, ScaleOutlined } from "@mui/icons-material";
 
 
 
@@ -102,12 +106,6 @@ axiosInstance.interceptors.response.use(
       return Promise.reject(customError);
   },
 );
-
-
-
-
-
-
 
 function App() {
   const { t, i18n } = useTranslation();
@@ -173,7 +171,10 @@ function App() {
                   //   },
                   // },
                   {
-                    name: "User Management"
+                    name: "User Management",
+                    meta: {
+                      icon: <ManageAccountsOutlinedIcon />
+                    }
                   }
                   ,
                   {
@@ -184,7 +185,8 @@ function App() {
                     show: "/permissions/show/:id",
                     meta: {
                       canDelete: true,
-                      parent: "User Management"
+                      parent: "User Management",
+                      icon: <LockOutlined />
                     },
                   },
                   {
@@ -195,8 +197,8 @@ function App() {
                     show: "/roles/show/:id",
                     meta: {
                       canDelete: true,
-                      parent: "User Management"
-
+                      parent: "User Management",
+                      icon: <AccountCircleOutlined />
                     },
                   },
                   {
@@ -207,8 +209,8 @@ function App() {
                     show: "/users/show/:id",
                     meta: {
                       canDelete: true,
-                      parent: "User Management"
-
+                      parent: "User Management",
+                      icon: <PeopleOutlineRounded />
                     },
                   },
                   {
@@ -219,6 +221,7 @@ function App() {
                     show: "/categories/show/:id",
                     meta: {
                       canDelete: true,
+                      icon: <CategoryOutlined />
                     },
                   },
                   {
@@ -230,6 +233,7 @@ function App() {
                     meta: {
                       // hide: true,
                       canDelete: true,
+                      icon: <ScaleOutlined />
                     },
                   },
                   {
@@ -240,6 +244,7 @@ function App() {
                     show: "/products/show/:id",
                     meta: {
                       canDelete: true,
+                      icon: <LocalMallOutlined />
                     },
                   },
                   {
@@ -248,7 +253,7 @@ function App() {
                 ]}
                 options={{
                   syncWithLocation: true,
-                  warnWhenUnsavedChanges: true,
+                  warnWhenUnsavedChanges: false,
                   projectId: "vWDU4h-MijopK-kwqDNS",
                   disableTelemetry: true,
                   undoableTimeout: 3500 
