@@ -28,7 +28,7 @@ import axios, { AxiosRequestConfig } from "axios";
 import { authProvider, getPermissions } from "./authProvider";
 // import { dataProvider } from "./dataProvider";
 import {dataProvider} from "./rest-data-provider";
-import {accessControlProvider} from "./accessControlProvider";
+// import {accessControlProvider} from "./accessControlProvider";
 
 
 import { AppIcon } from "./components/app-icon";
@@ -54,6 +54,10 @@ import {
 import {
   ProductCreate, ProductEdit, ProductList, ProductShow
 } from "./pages/products";
+import { RoleCreate, RoleEdit, RoleList, RoleShow } from "./pages/roles";
+import { PermissionCreate, PermissionEdit, PermissionList, PermissionShow } from "./pages/permissions";
+import { UserCreate, UserEdit, UserList, UserShow } from "./pages/users";
+
 
 import { ForgotPassword } from "./pages/forgotPassword";
 import { Login } from "./pages/login";
@@ -67,7 +71,9 @@ import { TOKEN_KEY, API_URL } from './constants';
 const axiosInstance = axios.create();
 
 axiosInstance.interceptors.request.use((request: AxiosRequestConfig) => {
+
   const token = localStorage.getItem(TOKEN_KEY);
+  console.log(request.url, token);
   if (token) {
     if (request.headers) {
       request.headers["Authorization"] = `Bearer ${token}`;
@@ -155,15 +161,54 @@ function App() {
                   },
               }}
                 resources={[
+                  // {
+                  //   name: "blog_posts",
+                  //   list: "/blog-posts",
+                  //   create: "/blog-posts/create",
+                  //   edit: "/blog-posts/edit/:id",
+                  //   show: "/blog-posts/show/:id",
+                  //   meta: {
+                  //     canDelete: true,
+                  //     // hide: true
+                  //   },
+                  // },
                   {
-                    name: "blog_posts",
-                    list: "/blog-posts",
-                    create: "/blog-posts/create",
-                    edit: "/blog-posts/edit/:id",
-                    show: "/blog-posts/show/:id",
+                    name: "User Management"
+                  }
+                  ,
+                  {
+                    name: "permissions",
+                    list: "/permissions",
+                    create: "/permissions/create",
+                    edit: "/permissions/edit/:id",
+                    show: "/permissions/show/:id",
                     meta: {
                       canDelete: true,
-                      // hide: true
+                      parent: "User Management"
+                    },
+                  },
+                  {
+                    name: "roles",
+                    list: "/roles",
+                    create: "/roles/create",
+                    edit: "/roles/edit/:id",
+                    show: "/roles/show/:id",
+                    meta: {
+                      canDelete: true,
+                      parent: "User Management"
+
+                    },
+                  },
+                  {
+                    name: "users",
+                    list: "/users",
+                    create: "/users/create",
+                    edit: "/users/edit/:id",
+                    show: "/users/show/:id",
+                    meta: {
+                      canDelete: true,
+                      parent: "User Management"
+
                     },
                   },
                   {
@@ -197,6 +242,9 @@ function App() {
                       canDelete: true,
                     },
                   },
+                  {
+                    name: "user management"
+                  }
                 ]}
                 options={{
                   syncWithLocation: true,
@@ -233,7 +281,26 @@ function App() {
                       </Authenticated>
                     }
                   >
-                      <Route path="/units">
+                    <Route path="/permissions">
+                      <Route index element={<UnitList />} />
+                      <Route path="create" element={<UnitCreate />} />
+                      <Route path="edit/:id" element={<UnitEdit />} />
+                      <Route path="show/:id" element={<UnitShow />} />
+                    </Route>
+                    <Route path="/roles">
+                      <Route index element={<UnitList />} />
+                      <Route path="create" element={<UnitCreate />} />
+                      <Route path="edit/:id" element={<UnitEdit />} />
+                      <Route path="show/:id" element={<UnitShow />} />
+                    </Route>
+                    <Route path="/users">
+                      <Route index element={<UnitList />} />
+                      <Route path="create" element={<UnitCreate />} />
+                      <Route path="edit/:id" element={<UnitEdit />} />
+                      <Route path="show/:id" element={<UnitShow />} />
+                    </Route>
+
+                    <Route path="/units">
                       <Route index element={<UnitList />} />
                       <Route path="create" element={<UnitCreate />} />
                       <Route path="edit/:id" element={<UnitEdit />} />

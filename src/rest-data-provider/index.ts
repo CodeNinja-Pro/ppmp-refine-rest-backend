@@ -8,7 +8,7 @@ type MethodTypesWithBody = "post" | "put" | "patch";
 
 export const dataProvider = (
   apiUrl: string,
-  httpClient: AxiosInstance = axiosInstance
+  axiosInstance: AxiosInstance
 ): Omit<
   Required<DataProvider>,
   "createMany" | "updateMany" | "deleteMany"
@@ -58,7 +58,7 @@ export const dataProvider = (
     const { headers, method } = meta ?? {};
     const requestMethod = (method as MethodTypes) ?? "get";
 
-    const { data } = await httpClient[requestMethod](
+    const { data } = await axiosInstance.get(
       `${apiUrl}/${resource}?${stringify({ id: ids })}`,
       { headers }
     );
@@ -74,7 +74,7 @@ export const dataProvider = (
     const { headers, method } = meta ?? {};
     const requestMethod = (method as MethodTypesWithBody) ?? "post";
 
-    const { data } = await httpClient[requestMethod](url, variables, {
+    const { data } = await axiosInstance.post(url, variables, {
       headers,
     });
 
@@ -89,7 +89,7 @@ export const dataProvider = (
     const { headers, method } = meta ?? {};
     const requestMethod = (method as MethodTypesWithBody) ?? "patch";
 
-    const { data } = await httpClient[requestMethod](url, variables, {
+    const { data } = await axiosInstance.patch(url, variables, {
       headers,
     });
 
@@ -103,8 +103,9 @@ export const dataProvider = (
 
     const { headers, method } = meta ?? {};
     const requestMethod = (method as MethodTypes) ?? "get";
+    
 
-    const { data } = await httpClient[requestMethod](url, { headers });
+    const { data } = await axiosInstance.get(url, { headers });
 
     return {
       data: data.data
@@ -117,7 +118,7 @@ export const dataProvider = (
     const { headers, method } = meta ?? {};
     const requestMethod = (method as MethodTypesWithBody) ?? "delete";
 
-    const { data } = await httpClient[requestMethod](url, {
+    const { data } = await axiosInstance.delete(url, {
       data: variables,
       headers,
     });
@@ -168,18 +169,18 @@ export const dataProvider = (
       case "put":
       case "post":
       case "patch":
-        axiosResponse = await httpClient[method](url, payload, {
+        axiosResponse = await axiosInstance[method](url, payload, {
           headers,
         });
         break;
       case "delete":
-        axiosResponse = await httpClient.delete(url, {
+        axiosResponse = await axiosInstance.delete(url, {
           data: payload,
           headers: headers,
         });
         break;
       default:
-        axiosResponse = await httpClient.get(requestUrl, {
+        axiosResponse = await axiosInstance.get(requestUrl, {
           headers,
         });
         break;

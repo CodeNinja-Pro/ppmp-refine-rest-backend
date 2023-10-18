@@ -1,8 +1,9 @@
-import { AuthBindings } from "@refinedev/core";
+import { AuthBindings, useGetIdentity } from '@refinedev/core';
 import axios, {AxiosInstance} from "axios";
 import { ILoginForm } from "./interfaces";
 
-import { TOKEN_KEY, AUTH_URL } from "./constants";
+import { TOKEN_KEY, AUTH_URL, USER_KEY } from "./constants";
+import { UserCreate } from './pages/users/create';
 
 const getUser = async () => {
 
@@ -77,10 +78,20 @@ export const authProvider = (axiosInstance: AxiosInstance): AuthBindings => ({
     if (!token) {
       return null;
     }
+    const user = localStorage.getItem(USER_KEY);
+    if (user){
+      return JSON.parse(user);
+    }
 
     try {
+      debugger;
       const userInfo = await axiosInstance.get(`${AUTH_URL}/api/user`);
-      return userInfo.data.user;
+      if (userInfo?.data?.data) {
+        // await authProvider(axiosInstance).logout({});
+        localStorage.setItem(USER_KEY, JSON.stringify(userInfo.data.data));
+        return userInfo.data.data;
+      }
+      // return userInfo.data.data;
     } catch (error) {
       console.warn(error);
       return null;
