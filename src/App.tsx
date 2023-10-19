@@ -261,8 +261,8 @@ function App() {
                   warnWhenUnsavedChanges: false,
                   projectId: "vWDU4h-MijopK-kwqDNS",
                   disableTelemetry: true,
-                  undoableTimeout: 3500,
-                  mutationMode
+                  undoableTimeout: 2500,
+                  mutationMode: mutationMode
                 }}
               >
                 <Routes>
@@ -293,22 +293,22 @@ function App() {
                     }
                   >
                     <Route path="/permissions">
-                      <Route index element={<UnitList />} />
-                      <Route path="create" element={<UnitCreate />} />
-                      <Route path="edit/:id" element={<UnitEdit />} />
-                      <Route path="show/:id" element={<UnitShow />} />
+                      <Route index element={<PermissionList />} />
+                      <Route path="create" element={<PermissionCreate />} />
+                      <Route path="edit/:id" element={<PermissionEdit />} />
+                      <Route path="show/:id" element={<PermissionShow />} />
                     </Route>
                     <Route path="/roles">
-                      <Route index element={<UnitList />} />
-                      <Route path="create" element={<UnitCreate />} />
-                      <Route path="edit/:id" element={<UnitEdit />} />
-                      <Route path="show/:id" element={<UnitShow />} />
+                      <Route index element={<RoleList />} />
+                      <Route path="create" element={<RoleCreate />} />
+                      <Route path="edit/:id" element={<RoleEdit />} />
+                      <Route path="show/:id" element={<RoleShow />} />
                     </Route>
                     <Route path="/users">
-                      <Route index element={<UnitList />} />
-                      <Route path="create" element={<UnitCreate />} />
-                      <Route path="edit/:id" element={<UnitEdit />} />
-                      <Route path="show/:id" element={<UnitShow />} />
+                      <Route index element={<UserList />} />
+                      <Route path="create" element={<UserCreate />} />
+                      <Route path="edit/:id" element={<UserEdit />} />
+                      <Route path="show/:id" element={<UserShow />} />
                     </Route>
 
                     <Route path="/units">

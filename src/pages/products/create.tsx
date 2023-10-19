@@ -156,6 +156,9 @@ export const ProductCreate: React.FC<IResourceComponentsProps> = () => {
                     type="text"
                     label={translate("products.fields.description")}
                     name="description"
+                    multiline
+                    minRows={5}
+                    maxRows={5}
                 />
                 <TextField
                     {...register("IPSAS_code", {
