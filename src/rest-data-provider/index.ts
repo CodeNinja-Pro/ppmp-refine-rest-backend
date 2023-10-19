@@ -25,13 +25,13 @@ export const dataProvider = (
 
     const query: {
       limit?: number;
-      offset?: number;
+      page?: number;
       sort?: string;
       order?: string;
     } = {};
 
     if (mode === "server") {
-      query.offset = (current - 1) * pageSize;
+      query.page = current;
       query.limit = pageSize;
     }
 

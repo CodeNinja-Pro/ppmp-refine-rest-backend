@@ -328,10 +328,10 @@ function App() {
                       <Route path="show/:id" element={<CategoryShow />} />
                     </Route>
                     <Route path="/products">
-                      <Route index element={<CategoryList />} />
-                      <Route path="create" element={<CategoryCreate />} />
-                      <Route path="edit/:id" element={<CategoryEdit />} />
-                      <Route path="show/:id" element={<CategoryShow />} />
+                      <Route index element={<ProductList />} />
+                      <Route path="create" element={<ProductCreate />} />
+                      <Route path="edit/:id" element={<ProductEdit />} />
+                      <Route path="show/:id" element={<ProductShow />} />
                     </Route>
                     
                     <Route path="*" element={<ErrorComponent />} />

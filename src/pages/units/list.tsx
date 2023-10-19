@@ -14,18 +14,8 @@ import {
     List,
     DateField,
 } from "@refinedev/mui";
-import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
+import { DataGrid, GridColDef, GridRenderCellParams, GridSortApi } from "@mui/x-data-grid";
 import { IResourceComponentsProps, useTranslate } from "@refinedev/core";
-
-// const listWrapperProps = {
-//   style: {
-//       background:
-//           "radial-gradient(100% 80% at 50% 50%,rgba(255, 255, 255, 0) 0%,rgba(0, 0, 0, 0.5) 100%),url('images/bg.jpg')",
-//       backgroundSize: "cover",
-//       backgroundRepeat: "no-repeat",
-//       width: "100%"
-//   },
-// };
 
 export const UnitList: React.FC<IResourceComponentsProps> = () => {
     const translate = useTranslate();
@@ -39,7 +29,7 @@ export const UnitList: React.FC<IResourceComponentsProps> = () => {
                 type: "number",
                 width: 20,
                 renderCell: function render(params: GridRenderCellParams) {
-                  return <span>{params.api.getRowIndexRelativeToVisibleRows(params.row.id) + 1}</span>
+                  return <span>{((dataGridProps.paginationModel?.page || 0) * (dataGridProps.paginationModel?.pageSize || 5)) +  params.api.getSortedRowIds().indexOf(params.row.id) +  1}</span>
                 }
             },
             {
@@ -75,14 +65,15 @@ export const UnitList: React.FC<IResourceComponentsProps> = () => {
                 minWidth: 80,
             },
         ],
-        [translate],
+        [translate, dataGridProps],
     );
 
     return (
         <List 
-        // wrapperProps={listWrapperProps}
         >
-            <DataGrid {...dataGridProps} columns={columns} autoHeight pageSizeOptions={[5, 10, 25, 50, 100]}/>
+            <DataGrid {...dataGridProps} initialState={{
+                pagination: {paginationModel: {pageSize: 5}},
+            }} autoHeight columns={columns}  pageSizeOptions={[5, 10, 25, 50, 100]}/>
         </List>
     );
 };

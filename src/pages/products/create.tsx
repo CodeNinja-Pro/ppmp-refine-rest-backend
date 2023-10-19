@@ -6,4 +6,3 @@ export const ProductCreate: React.FC<IResourceComponentsProps> = () => {
   // const { data: permissionsData } = usePermissions();
   return <MuiCreateInferencer />;
 };
-
