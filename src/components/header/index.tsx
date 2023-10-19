@@ -54,7 +54,7 @@ export const Header: React.FC<HeaderProps> = ({
             alignItems="center"
             gap="16px"
           >
-            <MutationModePicker onMutationChange={onMutationChange} currentMutationMode={currentMutationMode}>
+            <MutationModePicker onMutationChange={(mode) => onMutationChange(mode)} currentMutationMode={currentMutationMode}>
 
             </MutationModePicker>
             <FormControl sx={{ minWidth: 64 }}>

@@ -6,12 +6,13 @@
 // };
 
 import { Create, useAutocomplete } from "@refinedev/mui";
-import { Box, TextField, Autocomplete, InputAdornment, Input } from "@mui/material";
+import { Box, TextField, Autocomplete, InputAdornment, Input, Select, MenuItem, SelectChangeEvent } from "@mui/material";
 import { useForm } from "@refinedev/react-hook-form";
 import { IResourceComponentsProps, useTranslate } from "@refinedev/core";
 import { Controller } from "react-hook-form";
 
 import React from "react";
+import { IProduct } from "../../interfaces";
 
 export const ProductCreate: React.FC<IResourceComponentsProps> = () => {
     const translate = useTranslate();
@@ -21,11 +22,13 @@ export const ProductCreate: React.FC<IResourceComponentsProps> = () => {
         register,
         control,
         formState: { errors },
-    } = useForm();
+    } = useForm<IProduct>();
 
     const { autocompleteProps: unitAutocompleteProps } = useAutocomplete({
         resource: "units",
     });
+    const [unitId, setUnitId] = React.useState<number>(0);
+
 
 
     return (
@@ -69,6 +72,14 @@ export const ProductCreate: React.FC<IResourceComponentsProps> = () => {
                     // eslint-disable-next-line
                     defaultValue={null as any}
                     render={({ field }) => (
+                        // <Select
+                        // {...field}
+                        // onChange={(event: SelectChangeEvent) => {setUnitId(+event.target.value || 0)}}
+                        // value={unitId as unknown as string || ""}>
+                        //     {unitAutocompleteProps.options.map((item, index) => (
+                        //         <MenuItem key={index} value={item.id}>{item.name}</MenuItem>
+                        //     ))}
+                        // </Select>
                         <Autocomplete
                             {...unitAutocompleteProps}
                             {...field}

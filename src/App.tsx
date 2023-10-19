@@ -248,7 +248,8 @@ function App() {
                     show: "/products/show/:id",
                     meta: {
                       canDelete: true,
-                      icon: <LocalMallOutlined />
+                      icon: <LocalMallOutlined />,
+                      idOnlyPass: true
                     },
                   },
                   {
@@ -277,7 +278,7 @@ function App() {
                         fallback={<CatchAllNavigate to="/login" />}
                       >
                         <ThemedLayoutV2
-                          Header={() => <Header sticky currentMutationMode={mutationMode} onMutationChange={setMutationMode}/>}
+                          Header={() => <Header sticky currentMutationMode={mutationMode} onMutationChange={(mode) => setMutationMode(mode)}/>}
                           Title={({ collapsed }) => (
                             <ThemedTitleV2
                               collapsed={collapsed}

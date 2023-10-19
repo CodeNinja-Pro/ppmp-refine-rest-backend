@@ -6,6 +6,16 @@ import { stringify } from "query-string";
 type MethodTypes = "get" | "delete" | "head" | "options";
 type MethodTypesWithBody = "post" | "put" | "patch";
 
+function convertObject(obj: Record<string, any>): Record<string, any> {
+  for (let key in obj) {
+    if (typeof obj[key] === 'object' && obj[key] !== null && obj[key].hasOwnProperty('id')) {
+      obj[key + '_id'] = obj[key].id;
+      delete obj[key];
+    }
+  }
+  return obj;
+}
+
 export const dataProvider = (
   apiUrl: string,
   axiosInstance: AxiosInstance
@@ -93,11 +103,18 @@ export const dataProvider = (
     };
   },
 
+
+
   update: async ({ resource, id, variables, meta }) => {
     const url = `${apiUrl}/${resource}/${id}`;
 
     const { headers, method } = meta ?? {};
     const requestMethod = (method as MethodTypesWithBody) ?? "patch";
+    console.log("before", variables);
+    if (meta?.idOnlyPass) {
+      convertObject(variables as any);
+    }
+    console.log("after: ", variables);
 
     const { data } = await axiosInstance.patch(url, variables, {
       headers,
