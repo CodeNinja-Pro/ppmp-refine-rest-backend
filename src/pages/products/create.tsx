@@ -27,7 +27,6 @@ export const ProductCreate: React.FC<IResourceComponentsProps> = () => {
     const { autocompleteProps: unitAutocompleteProps } = useAutocomplete({
         resource: "units",
     });
-    const [unitId, setUnitId] = React.useState<number>(0);
 
 
 

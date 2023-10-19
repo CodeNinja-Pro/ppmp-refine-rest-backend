@@ -196,18 +196,7 @@ export const ProductEdit: React.FC<IResourceComponentsProps> = () => {
 
                     Docs: https://mui.com/x/react-date-pickers/date-picker/#basic-usage
                 */}
-                <TextField
-                    {...register("created_at", {
-                        required: "This field is required",
-                    })}
-                    error={!!(errors as any)?.created_at}
-                    helperText={(errors as any)?.created_at?.message}
-                    margin="normal"
-                    fullWidth
-                    InputLabelProps={{ shrink: true }}
-                    label={translate("products.fields.created_at")}
-                    name="created_at"
-                />
+
             </Box>
         </Edit>
     );

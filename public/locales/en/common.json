@@ -167,6 +167,20 @@
       "created_at": "Created At"
     }
   },
+  "products": {
+    "products": "Products",
+    "fields": {
+      "id": "Id",
+      "name": "Name",
+      "code": "Code",
+      "unit": "Unit",
+      "unit_cost": "Unit Cost",
+      "description": "Desc",
+      "IPSAS_code": "IPSAS",
+      "general_specification": "General Spec",
+      "created_at":"Created At"
+    }
+  },
   "documentTitle": {
     "default": "refine",
     "suffix": " | refine",

@@ -27,20 +27,20 @@ export const ProductList: React.FC<IResourceComponentsProps> = () => {
                 field: "id",
                 headerName: translate("products.fields.id"),
                 type: "number",
-                minWidth: 50,
+                width: 20,
             },
             {
                 field: "name",
-                flex: 1,
+                flex: 2,
                 headerName: translate("products.fields.name"),
-                minWidth: 200,
+                minWidth: 100,
             },
             {
                 field: "code",
                 flex: 1,
                 headerName: translate("products.fields.code"),
                 type: "number",
-                minWidth: 200,
+                minWidth: 100,
             },
             {
                 field: "unit",
@@ -51,38 +51,38 @@ export const ProductList: React.FC<IResourceComponentsProps> = () => {
 
                     return value;
                 },
-                minWidth: 300,
+                minWidth: 50,
             },
             {
                 field: "unit_cost",
                 flex: 1,
                 headerName: translate("products.fields.unit_cost"),
                 type: "number",
-                minWidth: 200,
+                minWidth: 50,
             },
             {
                 field: "description",
-                flex: 1,
+                flex: 2,
                 headerName: translate("products.fields.description"),
-                minWidth: 200,
+                minWidth: 100,
             },
             {
                 field: "IPSAS_code",
                 flex: 1,
                 headerName: translate("products.fields.IPSAS_code"),
-                minWidth: 200,
+                minWidth: 50,
             },
             {
                 field: "general_specification",
-                flex: 1,
+                flex: 2,
                 headerName: translate("products.fields.general_specification"),
-                minWidth: 200,
+                minWidth: 100,
             },
             {
                 field: "created_at",
                 flex: 1,
                 headerName: translate("products.fields.created_at"),
-                minWidth: 250,
+                minWidth: 50,
                 renderCell: function render({ value }) {
                     return <DateField value={value} />;
                 },
