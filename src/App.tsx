@@ -1,4 +1,4 @@
-import { Authenticated, GitHubBanner, HttpError, Refine, usePermissions } from "@refinedev/core";
+import { Authenticated, GitHubBanner, HttpError, MutationMode, Refine, usePermissions } from "@refinedev/core";
 import { DevtoolsPanel, DevtoolsProvider } from "@refinedev/devtools";
 import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
 
@@ -68,6 +68,8 @@ import { Register } from "./pages/register";
 import { Button } from "@mui/material";
 import { TOKEN_KEY, API_URL } from './constants';
 import { AccountCircleOutlined, CategoryOutlined, LocalMallOutlined, LockOutlined, PeopleOutlineRounded, ProductionQuantityLimitsOutlined, ScaleOutlined } from "@mui/icons-material";
+import React from "react";
+
 
 
 
@@ -109,6 +111,8 @@ axiosInstance.interceptors.response.use(
 
 function App() {
   const { t, i18n } = useTranslation();
+  const [mutationMode, setMutationMode] = React.useState<MutationMode>("undoable");
+  
   // const {data: permissionsData} = usePermissions();
   // const {data: permissionsData = []} = usePermissions<Array<string>>();
 
@@ -256,7 +260,8 @@ function App() {
                   warnWhenUnsavedChanges: false,
                   projectId: "vWDU4h-MijopK-kwqDNS",
                   disableTelemetry: true,
-                  undoableTimeout: 3500 
+                  undoableTimeout: 3500,
+                  mutationMode
                 }}
               >
                 <Routes>
@@ -272,7 +277,7 @@ function App() {
                         fallback={<CatchAllNavigate to="/login" />}
                       >
                         <ThemedLayoutV2
-                          Header={() => <Header sticky />}
+                          Header={() => <Header sticky currentMutationMode={mutationMode} onMutationChange={setMutationMode}/>}
                           Title={({ collapsed }) => (
                             <ThemedTitleV2
                               collapsed={collapsed}

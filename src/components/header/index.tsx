@@ -9,12 +9,12 @@ import Select from "@mui/material/Select";
 import Stack from "@mui/material/Stack";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import { useGetIdentity, useGetLocale, usePermissions, useSetLocale } from "@refinedev/core";
+import { MutationMode, useGetIdentity, useGetLocale, usePermissions, useSetLocale } from "@refinedev/core";
 import { HamburgerMenu, RefineThemedLayoutV2HeaderProps } from "@refinedev/mui";
 import i18n from "i18next";
 import React, { useContext } from "react";
 import { ColorModeContext } from "../../contexts/color-mode";
-import { Button } from "@mui/material";
+import { MutationModePicker } from "../MutationModePicker";
 
 type IUser = {
   id: number;
@@ -22,8 +22,16 @@ type IUser = {
   avatar: string;
 };
 
-export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = ({
+type HeaderProps =  {
+  sticky: boolean;
+  onMutationChange: (mode: MutationMode) => void;
+  currentMutationMode?: MutationMode
+}
+
+export const Header: React.FC<HeaderProps> = ({
   sticky = true,
+  onMutationChange,
+  currentMutationMode = "undoable"
 }) => {
   const { mode, setMode } = useContext(ColorModeContext);
 
@@ -46,6 +54,9 @@ export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = ({
             alignItems="center"
             gap="16px"
           >
+            <MutationModePicker onMutationChange={onMutationChange} currentMutationMode={currentMutationMode}>
+
+            </MutationModePicker>
             <FormControl sx={{ minWidth: 64 }}>
               <Select
                 disableUnderline
