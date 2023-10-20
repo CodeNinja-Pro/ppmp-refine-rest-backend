@@ -30,3 +30,8 @@ export interface IRole {
     id: number;
     name: string;
 }
+
+export interface IRolePermission {
+    role_id: number;
+    permissions: [number];
+}

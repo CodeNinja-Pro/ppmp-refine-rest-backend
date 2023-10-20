@@ -76,7 +76,7 @@ import 'react-dual-listbox/lib/react-dual-listbox.css';
 
 
 
-const axiosInstance = axios.create();
+export const axiosInstance = axios.create();
 
 axiosInstance.interceptors.request.use((request: AxiosRequestConfig) => {
 
@@ -105,7 +105,6 @@ axiosInstance.interceptors.response.use(
         message: error.response?.data?.message,
         statusCode: error.response?.status,
       };
-      debugger;
        if (error.response.status === 403) {
         authProvider(axiosInstance).logout({});
        }
@@ -113,6 +112,7 @@ axiosInstance.interceptors.response.use(
       return Promise.reject(customError);
   },
 );
+
 
 function App() {
   const { t, i18n } = useTranslation();

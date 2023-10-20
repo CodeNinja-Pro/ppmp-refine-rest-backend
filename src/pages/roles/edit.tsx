@@ -17,7 +17,7 @@ import {
 } from "@refinedev/core";
 import DualListBox from "react-dual-listbox";
 import React from "react";
-import { IPermission, IRole } from "../../interfaces";
+import { IPermission, IRole, IRolePermission } from "../../interfaces";
 import {
   ArrowBackOutlined,
   ArrowForward,
@@ -34,27 +34,39 @@ export const RoleEdit: React.FC<IResourceComponentsProps> = () => {
   const translate = useTranslate();
   const {
     saveButtonProps,
-    refineCore: { queryResult, onFinish, formLoading },
+    refineCore: { queryResult, onFinish, formLoading, redirect},
     register,
     control,
     handleSubmit,
     formState: { errors },
   } = useForm<IRole>();
 
+  const {
+    handleSubmit: handleUpdate,
+    refineCore: {onFinish: onUpdateFinish}
+  } = useForm<IRolePermission>({
+    refineCoreProps: {
+      resource: "role-permissions",
+      action: "edit"
+    }
+  })
+
   const allPermissions = useList<IPermission>({
     resource: "permissions",
     pagination: {
-      mode: "off"
-    }
+      mode: "off",
+    },
   });
   const rolesData = queryResult?.data?.data;
 
-  const {data: currentPermissions, isLoading, isError} = useOne<Array<IPermission>>({
+  const {
+    data: currentPermissions,
+    isLoading,
+    isError,
+  } = useOne<Array<IPermission>>({
     resource: "role-permissions",
     id: rolesData?.id,
   });
-
-
 
   // const [selected, setSelected] = React.useState(rolePermissions);
   // const [selectedPermissions, setSelectedPermissions] = React.useState(rolePermissions);
@@ -63,44 +75,57 @@ export const RoleEdit: React.FC<IResourceComponentsProps> = () => {
       label: permission.name,
       value: permission.id,
     })) || [];
-    console.log(currentPermissions?.data);
+  console.log("currentPermission", currentPermissions?.data);
 
   const [selectedPermissions, setSelectedPermissions] = React.useState<
-    Array<number> | undefined
-  >(currentPermissions?.data.map((permission) => permission.id));
+    Array<number>
+  >(currentPermissions?.data.map((permission) => permission.id) || []);
   console.log("selected Permissions: ", selectedPermissions);
 
   React.useEffect(() => {
-    setSelectedPermissions((currentPermissions?.data.map((permission) => permission.id)))
-    console.log("use Effect: ", (currentPermissions?.data.map((permission) => permission.id)))
-  }, [currentPermissions?.data])
+    setSelectedPermissions(
+      currentPermissions?.data.map((permission) => permission.id) || []
+    );
+    console.log(
+      "use Effect: ",
+      currentPermissions?.data.map((permission) => permission.id)
+    );
+  }, [currentPermissions?.data]);
 
-  const { mutate } = useUpdate();
+  const { mutate, data, variables} = useUpdate();
 
   // handleSubmit(async (values) => {
   //   console.log(123);
   // })
   saveButtonProps.onClick = (e) => {
     console.log(123);
-    mutate({
-      resource: "role-permissions",
-      id: rolesData?.id || -1000,
-      values: {selectedPermissions},
-
-    })
-  }
-
+    redirect("list");
+    handleUpdate((data) => {
+      onFinish({
+        role_id: rolesData?.id || -1,
+        permissions: selectedPermissions
+      })
+    });
+    // axiosInstance
+    // mutate({
+    //   resource: "role-permissions",
+    //   id: rolesData?.id || -1000,
+    //   values: null
+    // });
+  };
 
   return (
-  <Edit saveButtonProps={saveButtonProps} >
+    <Edit saveButtonProps={saveButtonProps}>
       <Box
         component="form"
         sx={{ display: "flex", flexDirection: "column" }}
         autoComplete="off"
       >
-        {
-          formLoading ? <LoadingComp /> : 
-          <><TextField
+        {formLoading ? (
+          <LoadingComp />
+        ) : (
+          <>
+            <TextField
               {...register("name", {
                 required: "This field is required",
               })}
@@ -111,27 +136,40 @@ export const RoleEdit: React.FC<IResourceComponentsProps> = () => {
               InputLabelProps={{ shrink: true }}
               type="text"
               label={translate("units.fields.name")}
-              name="name" /><DualListBox
-                disabled={saveButtonProps.disabled}
-                canFilter
-                filterCallback={(option, filterInput) => {
-                  if (filterInput === "") {
-                    return true;
-                  }
-                  return new RegExp(filterInput, "i").test(option.label);
-                } }
-                showHeaderLabels
-                options={options2}
-                lang={{ availableHeader: "Available Permissions", selectedHeader: "Current Permissions", moveLeft: "<-", moveRight: "->", moveAllLeft: "<=", moveAllRight: "=>" }}
-                icons={{
-                  moveLeft: <ArrowBackOutlined />,
-                  moveAllLeft: <FirstPageOutlined />,
-                  moveRight: <ArrowForward />,
-                  moveAllRight: <LastPage />,
-                }}
-                selected={selectedPermissions}
-                onChange={(selectedItems) => setSelectedPermissions(selectedItems)} /></>
-        }
+              name="name"
+            />
+            <DualListBox
+              disabled={saveButtonProps.disabled}
+              canFilter
+              filterCallback={(option, filterInput) => {
+                if (filterInput === "") {
+                  return true;
+                }
+                return new RegExp(filterInput, "i").test(option.label);
+              }}
+              showHeaderLabels
+              options={options2}
+              lang={{
+                availableHeader: "Available Permissions",
+                selectedHeader: "Current Permissions",
+                moveLeft: "<-",
+                moveRight: "->",
+                moveAllLeft: "<=",
+                moveAllRight: "=>",
+              }}
+              icons={{
+                moveLeft: <ArrowBackOutlined />,
+                moveAllLeft: <FirstPageOutlined />,
+                moveRight: <ArrowForward />,
+                moveAllRight: <LastPage />,
+              }}
+              selected={selectedPermissions}
+              onChange={(selectedItems) =>
+                setSelectedPermissions(selectedItems)
+              }
+            />
+          </>
+        )}
       </Box>
     </Edit>
   );
