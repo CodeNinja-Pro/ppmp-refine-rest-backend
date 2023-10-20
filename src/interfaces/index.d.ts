@@ -20,3 +20,13 @@ export interface IProduct {
     general_specification: string;
     created_at: string
 }
+
+export interface IPermission {
+    id: number;
+    name: string
+}
+
+export interface IRole {
+    id: number;
+    name: string;
+}

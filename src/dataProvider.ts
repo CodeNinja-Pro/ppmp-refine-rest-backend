@@ -71,7 +71,6 @@
 //           `${url}?${stringify(query)}&${stringify(queryFilters)}`);
   
 //         const total = +data?.meta?.total || data?.data?.length || 0;
-//         console.log(total);
   
   
 //         const records = {
@@ -80,7 +79,6 @@
 //         }
 //         return records;
 //       } catch (err) {
-//         console.log("List fetch failed:");
 //         return {
 //           data: [],
 //           total: 0

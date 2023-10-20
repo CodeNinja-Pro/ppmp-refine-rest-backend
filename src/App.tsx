@@ -71,6 +71,8 @@ import { AccountCircleOutlined, CategoryOutlined, LocalMallOutlined, LockOutline
 import React from "react";
 
 
+import 'react-dual-listbox/lib/react-dual-listbox.css';
+
 
 
 
@@ -79,7 +81,6 @@ const axiosInstance = axios.create();
 axiosInstance.interceptors.request.use((request: AxiosRequestConfig) => {
 
   const token = localStorage.getItem(TOKEN_KEY);
-  console.log(request.url, token);
   if (token) {
     if (request.headers) {
       request.headers["Authorization"] = `Bearer ${token}`;
@@ -104,6 +105,10 @@ axiosInstance.interceptors.response.use(
         message: error.response?.data?.message,
         statusCode: error.response?.status,
       };
+      debugger;
+       if (error.response.status === 403) {
+        authProvider(axiosInstance).logout({});
+       }
 
       return Promise.reject(customError);
   },
@@ -174,6 +179,12 @@ function App() {
                   //     // hide: true
                   //   },
                   // },
+                  {
+                    name: "role_permissions",
+                    list: "role_permissions",
+                    create: "/role_permissions/create",
+                    edit: "/role_permissions/edit",
+                  },
                   {
                     name: "User Management",
                     meta: {

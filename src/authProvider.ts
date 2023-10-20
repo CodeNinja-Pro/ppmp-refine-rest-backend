@@ -65,16 +65,17 @@ export const authProvider = (axiosInstance: AxiosInstance): AuthBindings => ({
       const res = await axiosInstance.get(AUTH_URL+"/api/abilities");
         const permissionsData = res?.data;
         localStorage.setItem("permissions", JSON.stringify(permissionsData));
-        console.log("getPermission: ", permissionsData);
+        console.log("getPermissions: ", permissionsData);
         return permissionsData;
     } catch (error) {
-      console.log(error);
+      console.log("getPermissions(error):", error);
     }
     return [];
     // return ["admin"]
   },
   getIdentity: async () => {
     const token = localStorage.getItem(TOKEN_KEY);
+    
     if (!token) {
       return null;
     }

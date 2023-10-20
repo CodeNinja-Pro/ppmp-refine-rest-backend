@@ -15,7 +15,7 @@ import {
     List,
     DateField,
 } from "@refinedev/mui";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 import { IResourceComponentsProps, useTranslate } from "@refinedev/core";
 
 export const RoleList: React.FC<IResourceComponentsProps> = () => {
@@ -27,9 +27,9 @@ export const RoleList: React.FC<IResourceComponentsProps> = () => {
             {
                 field: "id",
                 headerName: translate("roles.fields.id"),
-                renderCell: (params) => (
-                  <span>{(dataGridProps.paginationModel?.page || 0) * (dataGridProps.paginationModel?.pageSize || 0) + params.api.getRowIndexRelativeToVisibleRows(params.row.id) + 1}</span>
-                ),
+                renderCell: function render(params: GridRenderCellParams) {
+                    return <span>{((dataGridProps.paginationModel?.page || 0) * (dataGridProps.paginationModel?.pageSize || 5)) +  params.api.getSortedRowIds().indexOf(params.row.id) +  1}</span>
+                },
                 type: "number",
                 minWidth: 50,
             },
@@ -39,12 +39,12 @@ export const RoleList: React.FC<IResourceComponentsProps> = () => {
                 headerName: translate("roles.fields.name"),
                 minWidth: 200,
             },
-            {
-                field: "guard_name",
-                flex: 1,
-                headerName: translate("roles.fields.guard_name"),
-                minWidth: 200,
-            },
+            // {
+            //     field: "guard_name",
+            //     flex: 1,
+            //     headerName: translate("roles.fields.guard_name"),
+            //     minWidth: 200,
+            // },
             {
                 field: "created_at",
                 flex: 1,

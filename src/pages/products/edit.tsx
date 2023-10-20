@@ -12,15 +12,16 @@ import { HttpError, IResourceComponentsProps, useTranslate } from "@refinedev/co
 import { Controller } from "react-hook-form";
 import { BaseSyntheticEvent } from "react";
 import { IProduct } from "../../interfaces";
+import { LoadingButton } from "@mui/lab";
 
 export const ProductEdit: React.FC<IResourceComponentsProps> = () => {
     const translate = useTranslate();
     const {
         saveButtonProps,
-        refineCore: { queryResult, onFinish },
+        refineCore: { queryResult, onFinish, formLoading },
         register,
         control,
-        formState: { errors },
+        formState: { errors, isLoading },
         handleSubmit,
         getValues,
     } = useForm({});
@@ -31,21 +32,14 @@ export const ProductEdit: React.FC<IResourceComponentsProps> = () => {
         resource: "units",
         defaultValue: productsData?.unit?.id,
     });
+    console.log("isLoading: ", formLoading);
 
-    // handleSubmit((data, event) => { console.log("123");})
-    // // saveButtonProps.disabled = true;
-    // const onClick = (e: BaseSyntheticEvent) => {
 
-    //     const formValues = getValues();
-    //     console.log(formValues);
-    //     formValues.unit_id = formValues.unit_id.id;
-    //     onFinish(formValues);
-    // }
-    // saveButtonProps.onClick = onClick;
     console.log(saveButtonProps);
 
     return (
-        <Edit saveButtonProps={saveButtonProps}>
+        <Edit saveButtonProps={saveButtonProps} isLoading = {formLoading} >
+
             <Box
                 component="form"
                 sx={{ display: "flex", flexDirection: "column" }}
