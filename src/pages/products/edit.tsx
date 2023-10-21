@@ -13,6 +13,7 @@ import { Controller } from "react-hook-form";
 import { BaseSyntheticEvent } from "react";
 import { IProduct } from "../../interfaces";
 import { LoadingButton } from "@mui/lab";
+import LoadingComp from "../../components/common/LoadingComp";
 
 export const ProductEdit: React.FC<IResourceComponentsProps> = () => {
     const translate = useTranslate();
@@ -42,9 +43,11 @@ export const ProductEdit: React.FC<IResourceComponentsProps> = () => {
 
             <Box
                 component="form"
-                sx={{ display: "flex", flexDirection: "column" }}
+                sx={{ display: "flex", flexDirection: "column", position: "relative" }}
                 autoComplete="off"
             >
+                {formLoading && <LoadingComp />}
+
                 <TextField
                     {...register("id", {
                         required: "This field is required",

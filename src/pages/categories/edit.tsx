@@ -9,12 +9,13 @@ import { Edit } from "@refinedev/mui";
 import { Box, TextField } from "@mui/material";
 import { useForm } from "@refinedev/react-hook-form";
 import { IResourceComponentsProps, useTranslate } from "@refinedev/core";
+import LoadingComp from "../../components/common/LoadingComp";
 
 export const CategoryEdit: React.FC<IResourceComponentsProps> = () => {
     const translate = useTranslate();
     const {
         saveButtonProps,
-        refineCore: { queryResult },
+        refineCore: { queryResult, formLoading },
         register,
         control,
         formState: { errors },
@@ -26,9 +27,11 @@ export const CategoryEdit: React.FC<IResourceComponentsProps> = () => {
         <Edit saveButtonProps={saveButtonProps}>
             <Box
                 component="form"
-                sx={{ display: "flex", flexDirection: "column" }}
+                sx={{ display: "flex", flexDirection: "column", position: "relative" }}
                 autoComplete="off"
             >
+                {formLoading   && <LoadingComp />}
+
                 <TextField
                     {...register("id", {
                         required: "This field is required",

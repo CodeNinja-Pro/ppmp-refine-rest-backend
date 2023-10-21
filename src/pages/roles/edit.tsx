@@ -107,6 +107,9 @@ export const RoleEdit: React.FC<IResourceComponentsProps> = () => {
       if (res)
       console.log("sdfsdfsdf");
     })();
+    handleSubmit(async (data) => {
+      await onFinish(data);
+    })();
     // axiosInstance
     // mutate({
     //   resource: "role-permissions",
@@ -119,12 +122,11 @@ export const RoleEdit: React.FC<IResourceComponentsProps> = () => {
     <Edit saveButtonProps={saveButtonProps}>
       <Box
         component="form"
-        sx={{ display: "flex", position:"relative", flexDirection: "column" }}
+        sx={{ display: "flex", position:"relative", flexDirection: "column", potition: "relative" }}
         autoComplete="off"
       >
-        {formLoading || formLoading1? (
-          <LoadingComp />
-        ) : (
+        {(formLoading || formLoading1)  &&  <LoadingComp />}
+        
           <>
             <TextField
               {...register("name", {
@@ -170,7 +172,7 @@ export const RoleEdit: React.FC<IResourceComponentsProps> = () => {
               }
             />
           </>
-        )}
+        )
       </Box>
     </Edit>
   );

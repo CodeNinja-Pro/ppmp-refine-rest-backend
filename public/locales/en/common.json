@@ -194,6 +194,46 @@
       "created_at": "Created At"
     }
   },
+  "supply-types": {
+    "supply-types": "Supply Types",
+    "fields": {
+      "id": "Id",
+      "name": "Name",
+      "created_at": "Created At"
+    }
+  },
+  "bid-types": {
+    "bid-types": "Bid Types",
+    "fields": {
+      "id": "Id",
+      "name": "Name",
+      "created_at": "Created At"
+    }
+  },
+  "source-of-fundings": {
+    "source-of-fundings": "Founding Src",
+    "fields": {
+      "id": "Id",
+      "name": "Name",
+      "crated_at": "Created At"
+    }
+  },
+  "purchase-modes": {
+    "puchase-modes": "Purchase Modes",
+    "fields": {
+      "id": "Id",
+      "name": "Name",
+      "created_at": "Created At"
+    }
+  },
+  "departments": {
+    "departments": "Departments",
+    "fields": {
+      "id": "Id",
+      "name": "Name",
+      "created_at": "Created At"
+    }
+  },
   "documentTitle": {
     "default": "refine",
     "suffix": " | refine",

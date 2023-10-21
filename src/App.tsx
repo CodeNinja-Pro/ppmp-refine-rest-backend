@@ -126,6 +126,7 @@ import {
   DepartmentList,
   DepartmentShow,
 } from "./pages/departments";
+import AdminDashboard from "./pages/admin-dashboard/AdminDashboard";
 
 export const axiosInstance = axios.create();
 
@@ -284,6 +285,7 @@ function App() {
                   show: "/departments/show/:id",
                   meta: {
                     icon: <BusinessCenterOutlined />,
+                    canDelete: true
                   },
                 },
                 {
@@ -332,6 +334,7 @@ function App() {
                   show: "/purchase-modes/show/:id",
                   meta: {
                     icon: <ShoppingCartOutlined />,
+                    canDelete: true
                   },
                 },
                 {
@@ -342,6 +345,7 @@ function App() {
                   show: "/supply-types/show/:id",
                   meta: {
                     icon: <LocalShippingOutlined />,
+                    canDelete: true
                   },
                 },
                 {
@@ -352,6 +356,7 @@ function App() {
                   show: "/bid-types/show/:id",
                   meta: {
                     icon: <GavelOutlined />,
+                    canDelete: true
                   },
                 },
                 {
@@ -362,6 +367,7 @@ function App() {
                   show: "/source-of-fundings/show/:id",
                   meta: {
                     icon: <AttachMoneyOutlined />,
+                    canDelete: true
                   },
                 },
               ]}
@@ -394,7 +400,7 @@ function App() {
                             onMutationChange={(mode) => setMutationMode(mode)}
                           />
                         )}
-                        Title={({ collapsed }) => (
+                      Title={({ collapsed }) => (
                           <ThemedTitleV2
                             collapsed={collapsed}
                             text="PPMP"
@@ -407,7 +413,8 @@ function App() {
                     </Authenticated>
                   }
                 >
-                  <Route path="/permissions">
+                  <Route path="/" element={<AdminDashboard />} />
+                  <Route  path="/permissions">
                     <Route index element={<PermissionList />} />
                     <Route path="create" element={<PermissionCreate />} />
                     <Route path="edit/:id" element={<PermissionEdit />} />
@@ -419,7 +426,7 @@ function App() {
                     <Route path="edit/:id" element={<RoleEdit />} />
                     <Route path="show/:id" element={<RoleShow />} />
                   </Route>
-                  <Route path="/users">
+                  <Route  path="/users">
                     <Route index element={<UserList />} />
                     <Route path="create" element={<UserCreate />} />
                     <Route path="edit/:id" element={<UserEdit />} />

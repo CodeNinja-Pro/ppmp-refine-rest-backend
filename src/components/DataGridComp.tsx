@@ -7,8 +7,7 @@ export default function DataGridComp(props: any) {
   return (
     <DataGrid
       autoHeight
-      pageSizeOptions={[5, 10, 20, 50, 100]}
-      initialState={{ pagination: { paginationModel: { pageSize: 5 } } }}
+      initialState={{ pagination: { paginationModel: { pageSize: 5 }} }}
       {...props}
     />
   );

@@ -1,9 +1,7 @@
 import React from "react";
 import {
-  ClipLoader,
-  BarLoader,
   CircleLoader,
-  RingLoader,
+  HashLoader,
 } from "react-spinners";
 export type LengthType = number | string;
 // import { useTheme } from '@emotion/react';
@@ -29,19 +27,19 @@ export default function LoadingComp(
     <div
       style={{
         position: "absolute",
-        width: "100%",
-        height: "100%",
-        top: 0,
-        left: 0,
+        top: -20,
+        left: -20,
+        right: -20,
+        bottom: -20,
         zIndex: 1,
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        transition: "ease-in-out",
-        backgroundColor: theme.palette.mode === "light" ? "rgba(0,0,0,0.3)" : "rgba(255,255,255,0.3)",
+        backgroundColor: theme.palette.mode === "light" ? "rgba(0,0,0,0)" : "rgba(255,255,255,0.0)",
       }}
     >
-      <RingLoader
+      <HashLoader
+        style={{position: "absolute", top: "calc(min(50%, 50vh))"}}
         color={theme.palette.info.main}
         loading={loading}
         cssOverride={override as any}
