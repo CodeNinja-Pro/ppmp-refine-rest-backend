@@ -187,8 +187,9 @@
       "id": "Id",
       "name": "Name",
       "email": "Email",
-      "unit": "Unit",
+      "password":"Password",
       "roles": "Roles",
+      "role_id": "Roles",
       "department_id": "Departement",
       "created_at": "Created At"
     }
