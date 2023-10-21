@@ -18,6 +18,7 @@ import {
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { IResourceComponentsProps, useTranslate } from "@refinedev/core";
 import { pageSizeOptions } from "../../constants";
+import { createdAtColDef, idColDef, nameColDef } from "../../components/DataGridComp";
 
 export const PermissionList: React.FC<IResourceComponentsProps> = () => {
     const translate = useTranslate();
@@ -25,36 +26,39 @@ export const PermissionList: React.FC<IResourceComponentsProps> = () => {
 
     const columns = React.useMemo<GridColDef[]>(
         () => [
-            {
-                field: "id",
-                headerName: translate("permissions.fields.id"),
-                type: "number",
-                minWidth: 50,
-                renderCell: (params) => (
-                  <span>{((dataGridProps.paginationModel?.page || 0) * (dataGridProps.paginationModel?.pageSize || 0)) + params.api.getSortedRowIds().indexOf(params.row.id) + 1}</span>
-                )
-            },
-            {
-                field: "name",
-                flex: 1,
-                headerName: translate("permissions.fields.name"),
-                minWidth: 200,
-            },
+            // {
+            //     field: "id",
+            //     headerName: translate("permissions.fields.id"),
+            //     type: "number",
+            //     minWidth: 50,
+            //     renderCell: (params) => (
+            //       <span>{((dataGridProps.paginationModel?.page || 0) * (dataGridProps.paginationModel?.pageSize || 0)) + params.api.getSortedRowIds().indexOf(params.row.id) + 1}</span>
+            //     )
+            // },
+            idColDef(dataGridProps),
+            // {
+            //     field: "name",
+            //     flex: 1,
+            //     headerName: translate("permissions.fields.name"),
+            //     minWidth: 200,
+            // },
+            nameColDef(dataGridProps),
             // {
             //     field: "guard_name",
             //     flex: 1,
             //     headerName: translate("permissions.fields.guard_name"),
             //     minWidth: 200,
             // },
-            {
-                field: "created_at",
-                flex: 1,
-                headerName: translate("permissions.fields.created_at"),
-                minWidth: 250,
-                renderCell: function render({ value }) {
-                    return <DateField value={value} />;
-                },
-            },
+            // {
+            //     field: "created_at",
+            //     flex: 1,
+            //     headerName: translate("permissions.fields.created_at"),
+            //     minWidth: 250,
+            //     renderCell: function render({ value }) {
+            //         return <DateField value={value} />;
+            //     },
+            // },
+            createdAtColDef(dataGridProps),
             {
                 field: "actions",
                 headerName: translate("table.actions"),

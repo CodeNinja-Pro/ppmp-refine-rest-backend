@@ -52,7 +52,7 @@ export const authProvider = (axiosInstance: AxiosInstance): AuthBindings => ({
     };
   },
   getPermissions: async () => {
-    console.log("getPermissions")
+    // console.log("getPermissions")
     const token = localStorage.getItem(TOKEN_KEY);
     if (!token) {
       return []
@@ -106,7 +106,7 @@ export const authProvider = (axiosInstance: AxiosInstance): AuthBindings => ({
 
 
 export const getPermissions =  async (axiosInstance: AxiosInstance) => {
-  console.log("getPermissions")
+  // console.log("getPermissions")
   const token = localStorage.getItem(TOKEN_KEY);
   if (!token) {
     return []

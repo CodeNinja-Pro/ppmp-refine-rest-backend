@@ -16,6 +16,7 @@ import {
 } from "@refinedev/mui";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { IResourceComponentsProps, useTranslate } from "@refinedev/core";
+import { createdAtColDef, idColDef, nameColDef } from "../../components/DataGridComp";
 
 export const ProductList: React.FC<IResourceComponentsProps> = () => {
     const translate = useTranslate();
@@ -23,18 +24,20 @@ export const ProductList: React.FC<IResourceComponentsProps> = () => {
 
     const columns = React.useMemo<GridColDef[]>(
         () => [
-            {
-                field: "id",
-                headerName: translate("products.fields.id"),
-                type: "number",
-                width: 20,
-            },
-            {
-                field: "name",
-                flex: 2,
-                headerName: translate("products.fields.name"),
-                minWidth: 100,
-            },
+            // {
+            //     field: "id",
+            //     headerName: translate("products.fields.id"),
+            //     type: "number",
+            //     width: 20,
+            // },
+            idColDef(dataGridProps),
+            // {
+            //     field: "name",
+            //     flex: 2,
+            //     headerName: translate("products.fields.name"),
+            //     minWidth: 100,
+            // },
+            nameColDef(dataGridProps),
             {
                 field: "code",
                 flex: 1,
@@ -78,15 +81,16 @@ export const ProductList: React.FC<IResourceComponentsProps> = () => {
                 headerName: translate("products.fields.general_specification"),
                 minWidth: 100,
             },
-            {
-                field: "created_at",
-                flex: 1,
-                headerName: translate("products.fields.created_at"),
-                minWidth: 50,
-                renderCell: function render({ value }) {
-                    return <DateField value={value} />;
-                },
-            },
+            // {
+            //     field: "created_at",
+            //     flex: 1,
+            //     headerName: translate("products.fields.created_at"),
+            //     minWidth: 50,
+            //     renderCell: function render({ value }) {
+            //         return <DateField value={value} />;
+            //     },
+            // },
+            createdAtColDef(dataGridProps),
             {
                 field: "actions",
                 headerName: translate("table.actions"),

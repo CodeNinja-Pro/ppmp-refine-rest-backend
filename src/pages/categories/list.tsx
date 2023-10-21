@@ -16,6 +16,7 @@ import {
 } from "@refinedev/mui";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { IResourceComponentsProps, useTranslate } from "@refinedev/core";
+import { createdAtColDef, idColDef, nameColDef } from "../../components/DataGridComp";
 
 export const CategoryList: React.FC<IResourceComponentsProps> = () => {
     const translate = useTranslate();
@@ -23,27 +24,30 @@ export const CategoryList: React.FC<IResourceComponentsProps> = () => {
 
     const columns = React.useMemo<GridColDef[]>(
         () => [
-            {
-                field: "id",
-                headerName: translate("categories.fields.id"),
-                type: "number",
-                minWidth: 50,
-            },
-            {
-                field: "name",
-                flex: 1,
-                headerName: translate("categories.fields.name"),
-                minWidth: 200,
-            },
-            {
-                field: "created_at",
-                flex: 1,
-                headerName: translate("categories.fields.created_at"),
-                minWidth: 250,
-                renderCell: function render({ value }) {
-                    return <DateField value={value} />;
-                },
-            },
+            // {
+            //     field: "id",
+            //     headerName: translate("categories.fields.id"),
+            //     type: "number",
+            //     minWidth: 50,
+            // },
+            idColDef(dataGridProps),
+            // {
+            //     field: "name",
+            //     flex: 1,
+            //     headerName: translate("categories.fields.name"),
+            //     minWidth: 200,
+            // },
+            nameColDef(dataGridProps),
+            // {
+            //     field: "created_at",
+            //     flex: 1,
+            //     headerName: translate("categories.fields.created_at"),
+            //     minWidth: 250,
+            //     renderCell: function render({ value }) {
+            //         return <DateField value={value} />;
+            //     },
+            // },
+            createdAtColDef(dataGridProps),
             {
                 field: "actions",
                 headerName: translate("table.actions"),

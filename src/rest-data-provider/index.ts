@@ -116,7 +116,7 @@ export const dataProvider = (
     }
     console.log("after: ", variables);
 
-    const { data } = await axiosInstance.patch(url, variables, {
+    const { data } = await axiosInstance.put(url, variables, {
       headers,
     });
 

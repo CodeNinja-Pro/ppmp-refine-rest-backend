@@ -105,8 +105,10 @@ axiosInstance.interceptors.response.use(
         message: error.response?.data?.message,
         statusCode: error.response?.status,
       };
-       if (error.response.status === 403) {
+       if (error.response.status === 401) {
         authProvider(axiosInstance).logout({});
+        console.log("logged out");
+        window.location.href="/login";
        }
 
       return Promise.reject(customError);
@@ -116,7 +118,7 @@ axiosInstance.interceptors.response.use(
 
 function App() {
   const { t, i18n } = useTranslation();
-  const [mutationMode, setMutationMode] = React.useState<MutationMode>("undoable");
+  const [mutationMode, setMutationMode] = React.useState<MutationMode>("pessimistic");
   
   // const {data: permissionsData} = usePermissions();
   // const {data: permissionsData = []} = usePermissions<Array<string>>();
@@ -209,7 +211,6 @@ function App() {
                     list: "/roles",
                     create: "/roles/create",
                     edit: "/roles/edit/:id",
-                    show: "/roles/show/:id",
                     meta: {
                       canDelete: true,
                       parent: "User Management",

@@ -181,6 +181,18 @@
       "created_at":"Created At"
     }
   },
+  "users": {
+    "users": "Users",
+    "fields": {
+      "id": "Id",
+      "name": "Name",
+      "email": "Email",
+      "unit": "Unit",
+      "roles": "Roles",
+      "department_id": "Departement",
+      "created_at": "Created At"
+    }
+  },
   "documentTitle": {
     "default": "refine",
     "suffix": " | refine",

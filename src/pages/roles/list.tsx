@@ -16,44 +16,22 @@ import {
     DateField,
 } from "@refinedev/mui";
 import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
-import { IResourceComponentsProps, useTranslate } from "@refinedev/core";
+import { IResourceComponentsProps, useDelete, useTranslate } from "@refinedev/core";
+import DataGridComp, { createdAtColDef, idColDef, nameColDef } from "../../components/DataGridComp";
 
 export const RoleList: React.FC<IResourceComponentsProps> = () => {
     const translate = useTranslate();
     const { dataGridProps } = useDataGrid();
 
+    const {mutate} = useDelete();
+    
+
+
     const columns = React.useMemo<GridColDef[]>(
         () => [
-            {
-                field: "id",
-                headerName: translate("roles.fields.id"),
-                renderCell: function render(params: GridRenderCellParams) {
-                    return <span>{((dataGridProps.paginationModel?.page || 0) * (dataGridProps.paginationModel?.pageSize || 5)) +  params.api.getSortedRowIds().indexOf(params.row.id) +  1}</span>
-                },
-                type: "number",
-                minWidth: 50,
-            },
-            {
-                field: "name",
-                flex: 1,
-                headerName: translate("roles.fields.name"),
-                minWidth: 200,
-            },
-            // {
-            //     field: "guard_name",
-            //     flex: 1,
-            //     headerName: translate("roles.fields.guard_name"),
-            //     minWidth: 200,
-            // },
-            {
-                field: "created_at",
-                flex: 1,
-                headerName: translate("roles.fields.created_at"),
-                minWidth: 250,
-                renderCell: function render({ value }) {
-                    return <DateField value={value} />;
-                },
-            },
+            idColDef(dataGridProps as any),
+            nameColDef(dataGridProps as any),
+            createdAtColDef(dataGridProps as any),
             {
                 field: "actions",
                 headerName: translate("table.actions"),
@@ -62,8 +40,13 @@ export const RoleList: React.FC<IResourceComponentsProps> = () => {
                     return (
                         <>
                             <EditButton hideText recordItemId={row.id} />
-                            <ShowButton hideText recordItemId={row.id} />
-                            <DeleteButton hideText recordItemId={row.id} />
+                            {/* <ShowButton hideText recordItemId={row.id} /> */}
+                            <DeleteButton hideText recordItemId={row.id} onClick={() => {
+                                mutate({
+                                    id: row.id,
+                                    resource: "roles"
+                                });
+                            }}/>
                         </>
                     );
                 },
@@ -77,7 +60,7 @@ export const RoleList: React.FC<IResourceComponentsProps> = () => {
 
     return (
         <List>
-            <DataGrid {...dataGridProps} columns={columns} autoHeight />
+            <DataGridComp {...dataGridProps} columns={columns} />
         </List>
     );
 };

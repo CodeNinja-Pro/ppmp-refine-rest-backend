@@ -16,6 +16,7 @@ import {
 } from "@refinedev/mui";
 import { DataGrid, GridColDef, GridRenderCellParams, GridSortApi } from "@mui/x-data-grid";
 import { IResourceComponentsProps, useTranslate } from "@refinedev/core";
+import { createdAtColDef, idColDef, nameColDef } from "../../components/DataGridComp";
 
 export const UnitList: React.FC<IResourceComponentsProps> = () => {
     const translate = useTranslate();
@@ -23,30 +24,33 @@ export const UnitList: React.FC<IResourceComponentsProps> = () => {
 
     const columns = React.useMemo<GridColDef[]>(
         () => [
-            {
-                field: "id",
-                headerName: translate("units.fields.id"),
-                type: "number",
-                width: 20,
-                renderCell: function render(params: GridRenderCellParams) {
-                  return <span>{((dataGridProps.paginationModel?.page || 0) * (dataGridProps.paginationModel?.pageSize || 5)) +  params.api.getSortedRowIds().indexOf(params.row.id) +  1}</span>
-                }
-            },
-            {
-                field: "name",
-                flex: 1,
-                headerName: translate("units.fields.name"),
-                minWidth: 100,
-            },
-            {
-                field: "created_at",
-                flex: 1,
-                headerName: translate("units.fields.created_at"),
-                minWidth: 100,
-                renderCell: function render({ value }) {
-                    return <DateField value={value} />;
-                },
-            },
+            // {
+            //     field: "id",
+            //     headerName: translate("units.fields.id"),
+            //     type: "number",
+            //     width: 20,
+            //     renderCell: function render(params: GridRenderCellParams) {
+            //       return <span>{((dataGridProps.paginationModel?.page || 0) * (dataGridProps.paginationModel?.pageSize || 5)) +  params.api.getSortedRowIds().indexOf(params.row.id) +  1}</span>
+            //     }
+            // },
+            idColDef(dataGridProps),
+            // {
+            //     field: "name",
+            //     flex: 1,
+            //     headerName: translate("units.fields.name"),
+            //     minWidth: 100,
+            // },
+            nameColDef(dataGridProps),
+            // {
+            //     field: "created_at",
+            //     flex: 1,
+            //     headerName: translate("units.fields.created_at"),
+            //     minWidth: 100,
+            //     renderCell: function render({ value }) {
+            //         return <DateField value={value} />;
+            //     },
+            // },
+            createdAtColDef(dataGridProps),
             {
                 field: "actions",
                 headerName: translate("table.actions"),

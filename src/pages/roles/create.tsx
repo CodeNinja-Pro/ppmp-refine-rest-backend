@@ -1,24 +1,30 @@
-// import { IResourceComponentsProps } from "@refinedev/core";
+// import { IResourceComponentsProps, useList } from '@refinedev/core';
 // import { MuiCreateInferencer } from "@refinedev/inferencer/mui";
 
 // export const RoleCreate: React.FC<IResourceComponentsProps> = () => {
 //   return <MuiCreateInferencer />;
 // };
 
-import { Create } from "@refinedev/mui";
+import { Create, useAutocomplete } from '@refinedev/mui';
 import { Box, TextField } from "@mui/material";
 import { useForm } from "@refinedev/react-hook-form";
-import { IResourceComponentsProps, useTranslate } from "@refinedev/core";
+import { HttpError, IResourceComponentsProps, useList, useTranslate } from "@refinedev/core";
+import DualListBox from "react-dual-listbox";
+import { IPermission } from '../../interfaces';
+import React from 'react';
 
 export const RoleCreate: React.FC<IResourceComponentsProps> = () => {
     const translate = useTranslate();
+
     const {
         saveButtonProps,
-        refineCore: { formLoading },
+        refineCore: { formLoading, onFinish, redirect },
         register,
         control,
         formState: { errors },
-    } = useForm();
+        handleSubmit
+    } = useForm({
+    });
 
     return (
         <Create isLoading={formLoading} saveButtonProps={saveButtonProps}>
@@ -26,6 +32,16 @@ export const RoleCreate: React.FC<IResourceComponentsProps> = () => {
                 component="form"
                 sx={{ display: "flex", flexDirection: "column" }}
                 autoComplete="off"
+                onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
+                    event.preventDefault();
+                    handleSubmit(async (data) => {
+                        try {
+                            const index = await onFinish(data);
+                        } catch (error){
+                            console.log(error);
+                        }
+                    })
+                }}
             >
                 <TextField
                     {...register("name", {
@@ -53,25 +69,13 @@ export const RoleCreate: React.FC<IResourceComponentsProps> = () => {
                     label={translate("roles.fields.guard_name")}
                     name="guard_name"
                 /> */}
-                
+
                 {/*
                     DatePicker component is not included in "@refinedev/mui" package.
                     To use a <DatePicker> component, you can follow the official documentation for Material UI.
 
                     Docs: https://mui.com/x/react-date-pickers/date-picker/#basic-usage
                 */}
-                <TextField
-                    {...register("created_at", {
-                        required: "This field is required",
-                    })}
-                    error={!!(errors as any)?.created_at}
-                    helperText={(errors as any)?.created_at?.message}
-                    margin="normal"
-                    fullWidth
-                    InputLabelProps={{ shrink: true }}
-                    label={translate("roles.fields.created_at")}
-                    name="created_at"
-                />
             </Box>
         </Create>
     );

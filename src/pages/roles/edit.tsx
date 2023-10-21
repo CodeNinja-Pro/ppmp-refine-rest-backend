@@ -43,7 +43,7 @@ export const RoleEdit: React.FC<IResourceComponentsProps> = () => {
 
   const {
     handleSubmit: handleUpdate,
-    refineCore: {onFinish: onUpdateFinish}
+    refineCore: {onFinish: onUpdateFinish, formLoading: formLoading1}
   } = useForm<IRolePermission>({
     refineCoreProps: {
       resource: "role-permissions",
@@ -99,13 +99,14 @@ export const RoleEdit: React.FC<IResourceComponentsProps> = () => {
   // })
   saveButtonProps.onClick = (e) => {
     console.log(123);
-    redirect("list");
-    handleUpdate((data) => {
-      onFinish({
+    handleUpdate(async (data) => {
+     const res = await  onUpdateFinish({
         role_id: rolesData?.id || -1,
         permissions: selectedPermissions
       })
-    });
+      if (res)
+      console.log("sdfsdfsdf");
+    })();
     // axiosInstance
     // mutate({
     //   resource: "role-permissions",
@@ -118,10 +119,10 @@ export const RoleEdit: React.FC<IResourceComponentsProps> = () => {
     <Edit saveButtonProps={saveButtonProps}>
       <Box
         component="form"
-        sx={{ display: "flex", flexDirection: "column" }}
+        sx={{ display: "flex", position:"relative", flexDirection: "column" }}
         autoComplete="off"
       >
-        {formLoading ? (
+        {formLoading || formLoading1? (
           <LoadingComp />
         ) : (
           <>
