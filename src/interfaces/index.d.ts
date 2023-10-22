@@ -29,9 +29,34 @@ export interface IPermission {
 export interface IRole {
     id: number;
     name: string;
+    guard_name: string;
+    created_at: string;
+    updated_at: string;
 }
 
 export interface IRolePermission {
-    role_id: number;
-    permissions: [number];
+    id: number;
+    name: string;
+    guard_name: string;
+    created_at: string;
+    updated_at: string;
+    permissions: [IPermission]
 }
+
+// export interface IIdentityRole {
+//     id:
+// }
+
+export interface IUserIdentity {
+    id: number;
+    name: string;
+    email: string;
+    email_verified_at?:string;
+    department_id?: number;
+    created_at: string;
+    updated_at: string;
+    roles: [IRolePermission]
+}
+// export interface IPurchaseCartItem {
+//     product
+// }
