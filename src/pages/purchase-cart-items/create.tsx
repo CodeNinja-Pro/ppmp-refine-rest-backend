@@ -36,6 +36,10 @@ export const PurchaseCartItemCreate: React.FC<
   //   setShowId,
   // } = useShow({ resource: "products" });
 
+  saveButtonProps.onClick = (e) => {
+    e.preventDefault();
+  }
+
 
   const [cartItem, setCartItem] = React.useState({});
   // const {
@@ -54,7 +58,7 @@ export const PurchaseCartItemCreate: React.FC<
         autoComplete="off"
       >
         <Autocomplete
-            {...autocompleteProps}
+            {...autocompleteProps}  
             getOptionLabel={(item) => item.name}
             isOptionEqualToValue={(option, value) =>
                 value === undefined || option?.id?.toString() === (value?.id ?? value)?.toString()

@@ -59,7 +59,7 @@ export const nameColDef = (dataGridProps: any, headerName: string="Name") => (
       field: "name",
       headerName,
       type: "text",
-      minWidth: 100,
+      minWidth: 150,
       flex: 0.5
     }
 );

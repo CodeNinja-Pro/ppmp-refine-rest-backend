@@ -25,6 +25,8 @@ import React from "react";
 import { IProduct } from "../../interfaces";
 import { IMaskInput, IMask } from "react-imask";
 import { selectedGridRowsCountSelector } from "@mui/x-data-grid";
+import IPSASCodeInput from "../../components/IPSASCodeInput";
+import { eventNames } from "process";
 
 interface CustomProps {
   onChange: (event: { target: { name: string; value: string } }) => void;
@@ -57,7 +59,7 @@ const TextMaskCustom = React.forwardRef<HTMLInputElement, CustomProps>(
         color="red"
         prepareChar={(chars, masked, flags) => chars.toLocaleUpperCase()}
         onAccept={(value: any) => {
-            console.log("sdfsdf", value);
+          console.log("sdfsdf", value);
           onChange({ target: { name: props.name, value } });
         }}
       />
@@ -69,13 +71,14 @@ export const ProductCreate: React.FC<IResourceComponentsProps> = () => {
   const translate = useTranslate();
   const {
     saveButtonProps,
-    refineCore: { formLoading },
+    refineCore: { formLoading, onFinish },
     register,
     control,
     setValue,
     getValues,
+    handleSubmit,
     formState: { errors, dirtyFields, touchedFields },
-    trigger
+    trigger,
   } = useForm<IProduct>();
 
   const { autocompleteProps: unitAutocompleteProps } = useAutocomplete({
@@ -87,30 +90,59 @@ export const ProductCreate: React.FC<IResourceComponentsProps> = () => {
     stringify: (option: any) => option.name,
   });
 
-  // const handleChange = (event: any) => {
-  //     const { value } = event.target;
-  //     // Remove any non-alphanumeric characters from the input
-  //     const sanitizedValue = value.replace(/[^a-zA-Z0-9]/g, '');
-  //     // Format the input with dots and other fixed values
-  //     const formattedValue = `${sanitizedValue.slice(0, 4)}.${sanitizedValue.slice(4, 10)}BAL${sanitizedValue.slice(10, 14)}.2021RB`;
-  //     setValue("IPSAS_code", form);
-  //   };
-  // setValue("IPSAS_code", "sdfsdfsdf");
-  const [ipsasCode, setIpsasCode] = React.useState("");
-  console.log(ipsasCode);
-  console.log(getValues("IPSAS_code"));
-  console.log(errors);
+  saveButtonProps.onClick = (e) => {
+    console.log(123);
 
+    handleSubmit(async (data) => {
+        const formValues = getValues();
+            formValues.unit_id = formValues.unit.id;
+            delete formValues.unit;
+            debugger;
+            try {
+                const data  = await onFinish(formValues);
+            }catch(error) {
+                console.log(error);
+            }
+    })();
+    // axiosInstance
+    // mutate({
+    //   resource: "role-permissions",
+    //   id: rolesData?.id || -1000,
+    //   values: null
+    // });
+  };
 
-
-  console.log(ipsasCode);
-  console.log(errors);
   return (
     <Create isLoading={formLoading} saveButtonProps={saveButtonProps}>
       <Box
         component="form"
         sx={{ display: "flex", flexDirection: "column" }}
         autoComplete="off"
+        // onSubmit={(event) => {
+        //     debugger;
+        //   event.preventDefault();
+        //    handleSubmit(async (data) => {
+        //     const formValues = getValues();
+        //     formValues.unit_id = formValues.unit.id;
+        //     delete formValues.unit;
+        //     debugger;
+        //     try {
+        //         const data  = await onFinish(formValues);
+        //     }catch(error) {
+        //         console.log(error);
+        //     }
+        //   })();
+        // }}
+        onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
+            event.preventDefault();
+            handleSubmit(async (data) => {
+                try {
+                    const index = await onFinish(data);
+                } catch (error){
+                    console.log("error", error);
+                }
+            })
+        }}
       >
         <TextField
           {...register("name", {
@@ -125,7 +157,13 @@ export const ProductCreate: React.FC<IResourceComponentsProps> = () => {
           label={translate("products.fields.name")}
           name="name"
         />
-        <TextField
+        <IPSASCodeInput
+          {...register("IPSAS_code", {
+            required: "This field is required",
+          })}
+        />
+
+        {/* <TextField
           {...register("IPSAS_code", {
             required: {
               value: true,
@@ -161,7 +199,7 @@ export const ProductCreate: React.FC<IResourceComponentsProps> = () => {
           InputProps={{
             inputComponent: TextMaskCustom as any,
           }}
-        />
+        /> */}
         {/* <Input
                     
                 }

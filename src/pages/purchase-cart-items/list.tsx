@@ -44,6 +44,13 @@ export const PurchaseCartItemList: React.FC<IPurchaseCartItemsResourceProps> = (
                 flex: 0.8
             },
             {
+                field: 'IPSAS_code',
+                headerName: "IPSAS_code",
+                type: "text",
+                minWidth: 100,
+                flex: 0.8
+            },
+            {
                 field: "desc",
                 headerName: "Item Description",
                 minWidth: 100,

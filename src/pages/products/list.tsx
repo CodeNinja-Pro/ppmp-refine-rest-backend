@@ -16,7 +16,7 @@ import {
 } from "@refinedev/mui";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { IResourceComponentsProps, useTranslate } from "@refinedev/core";
-import { createdAtColDef, idColDef, nameColDef } from "../../components/DataGridComp";
+import DataGridComp, { createdAtColDef, idColDef, nameColDef } from "../../components/DataGridComp";
 
 export const ProductList: React.FC<IResourceComponentsProps> = () => {
     const translate = useTranslate();
@@ -118,7 +118,7 @@ export const ProductList: React.FC<IResourceComponentsProps> = () => {
 
     return (
         <List>
-            <DataGrid {...dataGridProps} columns={columns} autoHeight />
+            <DataGridComp {...dataGridProps} columns={columns} autoHeight />
         </List>
     );
 };

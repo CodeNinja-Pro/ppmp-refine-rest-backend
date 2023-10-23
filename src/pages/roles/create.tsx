@@ -25,6 +25,18 @@ export const RoleCreate: React.FC<IResourceComponentsProps> = () => {
         handleSubmit
     } = useForm({
     });
+    saveButtonProps.onClick = (event) => {
+        console.log("788888888888888888888")
+        event.preventDefault();
+        debugger;
+        handleSubmit(async (data) => {
+            try {
+                const index = await onFinish(data);
+            } catch (error){
+                console.log(error);
+            }
+        })();
+    }
 
     return (
         <Create isLoading={formLoading} saveButtonProps={saveButtonProps}>
@@ -32,16 +44,6 @@ export const RoleCreate: React.FC<IResourceComponentsProps> = () => {
                 component="form"
                 sx={{ display: "flex", flexDirection: "column" }}
                 autoComplete="off"
-                onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
-                    event.preventDefault();
-                    handleSubmit(async (data) => {
-                        try {
-                            const index = await onFinish(data);
-                        } catch (error){
-                            console.log(error);
-                        }
-                    })
-                }}
             >
                 <TextField
                     {...register("name", {
