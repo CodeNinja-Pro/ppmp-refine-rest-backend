@@ -2,13 +2,35 @@ import React from "react";
 import { DataGrid, DataGridProps } from "@mui/x-data-grid";
 import { useTranslate } from "@refinedev/core";
 import { DateField } from "@refinedev/mui";
+import { useTheme } from "@mui/material";
+import { darken } from "@mui/material";
+
 
 export default function DataGridComp(props: any) {
+  const theme = useTheme();
+  const  sx =  {
+    border: "none",
+    "& .MuiDataGrid-columnHeaders": {
+        background: darken(theme.palette.background.paper, 0.05),
+        borderBottom: `1px solid ${darken(
+            theme.palette.background.paper,
+            0.1,
+        )}`,
+    },
+    "& .MuiDataGrid-cell": {
+        borderBottom: `1px solid ${darken(
+            theme.palette.background.paper,
+            0.05,
+        )}`,
+    },
+  };
+  
   return (
     <DataGrid
       autoHeight
       initialState={{ pagination: { paginationModel: { pageSize: 5 }} }}
       {...props}
+      sx={sx}
     />
   );
 }

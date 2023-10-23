@@ -6,7 +6,7 @@
 // };
 
 import { Create, useAutocomplete } from "@refinedev/mui";
-import { Box, TextField, Autocomplete, InputAdornment, Input, Select, MenuItem, SelectChangeEvent } from "@mui/material";
+import { Box, TextField, Autocomplete, InputAdornment, Input, Select, MenuItem, SelectChangeEvent, createFilterOptions } from "@mui/material";
 import { useForm } from "@refinedev/react-hook-form";
 import { IResourceComponentsProps, useTranslate } from "@refinedev/core";
 import { Controller } from "react-hook-form";
@@ -27,6 +27,8 @@ export const ProductCreate: React.FC<IResourceComponentsProps> = () => {
     const { autocompleteProps: unitAutocompleteProps } = useAutocomplete({
         resource: "units",
     });
+
+    const filterOptions = createFilterOptions({matchFrom: "any", stringify: (option: any) => option.name})
 
 
 
@@ -50,7 +52,20 @@ export const ProductCreate: React.FC<IResourceComponentsProps> = () => {
                     label={translate("products.fields.name")}
                     name="name"
                 />
-                <TextField
+                    <TextField
+                    {...register("IPSAS_code", {
+                        required: "This field is required",
+                    })}
+                    error={!!(errors as any)?.IPSAS_code}
+                    helperText={(errors as any)?.IPSAS_code?.message}
+                    margin="normal"
+                    fullWidth
+                    InputLabelProps={{ shrink: true }}
+                    type="text"
+                    label={translate("products.fields.IPSAS_code")}
+                    name="IPSAS_code"
+                />
+                {/* <TextField
                     {...register("code", {
                         required: "This field is required",
                         valueAsNumber: true,
@@ -63,7 +78,7 @@ export const ProductCreate: React.FC<IResourceComponentsProps> = () => {
                     type="text"
                     label={translate("products.fields.code")}
                     name="code"
-                />
+                /> */}
                 <Controller
                     control={control}
                     name="unit"
@@ -80,8 +95,9 @@ export const ProductCreate: React.FC<IResourceComponentsProps> = () => {
                         //     ))}
                         // </Select>
                         <Autocomplete
-                            {...unitAutocompleteProps}
-                            {...field}
+                        {...unitAutocompleteProps}
+                        {...field}
+                        filterOptions={filterOptions}
                             onChange={(_, value) => {
                                 field.onChange(value);
                             }}
@@ -160,19 +176,7 @@ export const ProductCreate: React.FC<IResourceComponentsProps> = () => {
                     minRows={5}
                     maxRows={5}
                 />
-                <TextField
-                    {...register("IPSAS_code", {
-                        required: "This field is required",
-                    })}
-                    error={!!(errors as any)?.IPSAS_code}
-                    helperText={(errors as any)?.IPSAS_code?.message}
-                    margin="normal"
-                    fullWidth
-                    InputLabelProps={{ shrink: true }}
-                    type="text"
-                    label={translate("products.fields.IPSAS_code")}
-                    name="IPSAS_code"
-                />
+            
                 <TextField
                     {...register("general_specification", {
                         required: "This field is required",

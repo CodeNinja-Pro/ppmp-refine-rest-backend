@@ -6,7 +6,7 @@
 // };
 
 import { Create, useAutocomplete } from "@refinedev/mui";
-import { Box, TextField, Autocomplete } from "@mui/material";
+import { Box, TextField, Autocomplete, createFilterOptions } from "@mui/material";
 import { useForm } from "@refinedev/react-hook-form";
 import { IResourceComponentsProps, useTranslate } from "@refinedev/core";
 import { Controller } from "react-hook-form";
@@ -24,6 +24,10 @@ export const UserCreate: React.FC<IResourceComponentsProps> = () => {
     const { autocompleteProps: roleAutocompleteProps } = useAutocomplete({
         resource: "roles",
     });
+    const filterOptions = createFilterOptions({
+        matchFrom: "any",
+        stringify: (option: any) => option.name
+    })
 
     const { autocompleteProps: departmentAutocompleteProps } = useAutocomplete({
         resource: "departments",
@@ -89,6 +93,7 @@ export const UserCreate: React.FC<IResourceComponentsProps> = () => {
                             onChange={(_, value) => {
                                 field.onChange(value);
                             }}
+                            filterOptions={filterOptions}
                             getOptionLabel={(item) => {
                                 return (
                                     roleAutocompleteProps?.options?.find(
@@ -128,6 +133,7 @@ export const UserCreate: React.FC<IResourceComponentsProps> = () => {
                         <Autocomplete
                             {...departmentAutocompleteProps}
                             {...field}
+                            filterOptions={filterOptions}
                             onChange={(_, value) => {
                                 field.onChange(value?.id ?? value);
                             }}

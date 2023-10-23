@@ -21,6 +21,7 @@ import { createdAtColDef, idColDef, nameColDef } from "../../components/DataGrid
 export const DepartmentList: React.FC<IResourceComponentsProps> = () => {
     const translate = useTranslate();
     const { dataGridProps } = useDataGrid();
+    console.log(dataGridProps);
 
     const columns = React.useMemo<GridColDef[]>(
         () => [

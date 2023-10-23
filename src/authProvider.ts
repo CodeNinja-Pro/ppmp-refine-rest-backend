@@ -5,6 +5,7 @@ import { ILoginForm, IUserIdentity } from "./interfaces";
 import { TOKEN_KEY, AUTH_URL, USER_KEY } from "./constants";
 import { UserCreate } from './pages/users/create';
 import { axiosInstance as defaultAxiosInstance, axiosInstance } from './App';
+import { IPermission } from './interfaces/index';
 
 const getUser = async () => {
 
@@ -188,12 +189,12 @@ export const getIdentity = async (axiosInstance: AxiosInstance=defaultAxiosInsta
 export const getPermissions = async (axiosInstance: AxiosInstance=defaultAxiosInstance) => {
   try {
     const userIdentity = await getIdentity(axiosInstance);
-    let permissions;
+    let permissions:IPermission[] = [];
     if (userIdentity) {
       (userIdentity as IUserIdentity).roles.map((role) => {
         permissions.push(...role.permissions);
       })
-      return permissions;
+      return permissions.map(permission => permission.name);
     }
   } catch(error) {
     return [];

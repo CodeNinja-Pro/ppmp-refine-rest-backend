@@ -9,38 +9,47 @@ import Select from "@mui/material/Select";
 import Stack from "@mui/material/Stack";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import { MutationMode, useGetIdentity, useGetLocale, usePermissions, useSetLocale } from "@refinedev/core";
+import {
+  MutationMode,
+  useGetIdentity,
+  useGetLocale,
+  usePermissions,
+  useSetLocale,
+} from "@refinedev/core";
 import { HamburgerMenu, RefineThemedLayoutV2HeaderProps } from "@refinedev/mui";
 import i18n from "i18next";
 import React, { useContext } from "react";
 import { ColorModeContext } from "../../contexts/color-mode";
 import { MutationModePicker } from "../MutationModePicker";
+import { Badge, Button, Chip, Tooltip } from "@mui/material";
+import { IUserIdentity } from "../../interfaces";
+import { BadgeOutlined } from "@mui/icons-material";
 
 type IUser = {
   id: number;
   name: string;
+  email: string;
   avatar: string;
 };
 
-type HeaderProps =  {
+type HeaderProps = {
   sticky: boolean;
   onMutationChange: (mode: MutationMode) => void;
-  currentMutationMode?: MutationMode
-}
+  currentMutationMode?: MutationMode;
+};
 
 export const Header: React.FC<HeaderProps> = ({
   sticky = true,
   onMutationChange,
-  currentMutationMode = "undoable"
+  currentMutationMode = "undoable",
 }) => {
   const { mode, setMode } = useContext(ColorModeContext);
 
-  const { data: user } = useGetIdentity<IUser>();
+  const { data: user } = useGetIdentity<IUserIdentity>();
 
   const changeLanguage = useSetLocale();
   const locale = useGetLocale();
   const currentLocale = locale();
-
 
   return (
     <AppBar position={sticky ? "sticky" : "relative"}>
@@ -54,9 +63,10 @@ export const Header: React.FC<HeaderProps> = ({
             alignItems="center"
             gap="16px"
           >
-            <MutationModePicker onMutationChange={(mode) => onMutationChange(mode)} currentMutationMode={currentMutationMode}>
-
-            </MutationModePicker>
+            <MutationModePicker
+              onMutationChange={(mode) => onMutationChange(mode)}
+              currentMutationMode={currentMutationMode}
+            ></MutationModePicker>
             <FormControl sx={{ minWidth: 64 }}>
               <Select
                 disableUnderline
@@ -126,17 +136,24 @@ export const Header: React.FC<HeaderProps> = ({
                 justifyContent="center"
               >
                 {user?.name && (
-                  <Typography
-                    sx={{
-                      display: {
-                        xs: "none",
-                        sm: "inline-block",
-                      },
-                    }}
-                    variant="subtitle2"
-                  >
-                    {user?.name}
-                  </Typography>
+                  <Tooltip arrow title={<Stack>
+                    <Badge>{user?.email}</Badge>
+                    {user?.roles.map(role => (
+                      <Chip color="warning" size="small" variant="outlined" label={role.name}></Chip>
+                    ))}
+                  </Stack>}>
+                    <Typography
+                      sx={{
+                        display: {
+                          xs: "none",
+                          sm: "inline-block",
+                        },
+                      }}
+                      variant="subtitle2"
+                    >
+                      {user?.name}
+                    </Typography>
+                  </Tooltip>
                 )}
                 <Avatar src={user?.avatar} alt={user?.name} />
               </Stack>

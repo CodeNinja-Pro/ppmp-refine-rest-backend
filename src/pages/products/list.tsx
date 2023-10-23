@@ -21,6 +21,7 @@ import { createdAtColDef, idColDef, nameColDef } from "../../components/DataGrid
 export const ProductList: React.FC<IResourceComponentsProps> = () => {
     const translate = useTranslate();
     const { dataGridProps } = useDataGrid();
+    // debugger;
 
     const columns = React.useMemo<GridColDef[]>(
         () => [
@@ -38,11 +39,30 @@ export const ProductList: React.FC<IResourceComponentsProps> = () => {
             //     minWidth: 100,
             // },
             nameColDef(dataGridProps),
+            // {
+            //     field: "code",
+            //     flex: 1,
+            //     headerName: translate("products.fields.code"),
+            //     type: "number",
+            //     minWidth: 100,
+            // },
+   
             {
-                field: "code",
+                field: "IPSAS_code",
                 flex: 1,
-                headerName: translate("products.fields.code"),
-                type: "number",
+                headerName: translate("products.fields.IPSAS_code"),
+                minWidth: 150,
+            },
+          {
+                field: "description",
+                flex: 2,
+                headerName: translate("products.fields.description"),
+                minWidth: 100,
+            }, 
+            {
+                field: "general_specification",
+                flex: 2,
+                headerName: translate("products.fields.general_specification"),
                 minWidth: 100,
             },
             {
@@ -55,7 +75,7 @@ export const ProductList: React.FC<IResourceComponentsProps> = () => {
                     return value;
                 },
                 minWidth: 50,
-            },
+            }, 
             {
                 field: "unit_cost",
                 flex: 1,
@@ -63,24 +83,8 @@ export const ProductList: React.FC<IResourceComponentsProps> = () => {
                 type: "number",
                 minWidth: 50,
             },
-            {
-                field: "description",
-                flex: 2,
-                headerName: translate("products.fields.description"),
-                minWidth: 100,
-            },
-            {
-                field: "IPSAS_code",
-                flex: 1,
-                headerName: translate("products.fields.IPSAS_code"),
-                minWidth: 50,
-            },
-            {
-                field: "general_specification",
-                flex: 2,
-                headerName: translate("products.fields.general_specification"),
-                minWidth: 100,
-            },
+           
+         
             // {
             //     field: "created_at",
             //     flex: 1,

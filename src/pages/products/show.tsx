@@ -46,9 +46,9 @@ export const ProductShow: React.FC<IResourceComponentsProps> = () => {
           {translate("products.fields.name")}
         </Typography>
         <TextField value={record?.name} />
-        <Typography variant="body1" fontWeight="bold">
+        {/* <Typography variant="body1" fontWeight="bold">
           {translate("products.fields.code")}
-        </Typography>
+        </Typography> */}
         <NumberField value={record?.code ?? ""} />
         <Typography variant="body1" fontWeight="bold">
           {translate("products.fields.unit")}

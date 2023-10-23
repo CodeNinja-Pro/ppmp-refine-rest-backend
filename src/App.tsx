@@ -80,6 +80,7 @@ import { Button } from "@mui/material";
 import { TOKEN_KEY, API_URL } from "./constants";
 import {
   AccountCircleOutlined,
+  AddShoppingCartOutlined,
   AttachMoneyOutlined,
   BusinessCenterOutlined,
   CategoryOutlined,
@@ -127,6 +128,8 @@ import {
   DepartmentShow,
 } from "./pages/departments";
 import AdminDashboard from "./pages/admin-dashboard/AdminDashboard";
+import { PurchaseCartItemCreate, PurchaseCartItemEdit, PurchaseCartItemList, PurchaseCartItemShow } from "./pages/purchase-cart-items";
+import { IPurchaseCartItem } from "./interfaces";
 
 export const axiosInstance = axios.create();
 
@@ -170,6 +173,8 @@ function App() {
   const { t, i18n } = useTranslation();
   const [mutationMode, setMutationMode] =
     React.useState<MutationMode>("pessimistic");
+  const [purchaseCartItems, setPurchaseCartItems] = React.useState<Array<IPurchaseCartItem>>();
+
 
   // const {data: permissionsData} = usePermissions();
   // const {data: permissionsData = []} = usePermissions<Array<string>>();
@@ -286,6 +291,17 @@ function App() {
                   meta: {
                     icon: <BusinessCenterOutlined />,
                     canDelete: true
+                  },
+                },
+                {
+                  name: "purchase-cart-items",
+                  list: "/purchase-cart-items",
+                  create: "/purchase-cart-items/create",
+                  edit: "/purchase-cart-items/edit/:id",
+                  show: "/purchase-cart-items/show/:id",
+                  meta: {
+                    canDelete: true,
+                    icon: <AddShoppingCartOutlined />,
                   },
                 },
                 {
@@ -496,6 +512,12 @@ function App() {
                     <Route path="create" element={<DepartmentCreate />} />
                     <Route path="edit/:id" element={<DepartmentEdit />} />
                     <Route path="show/:id" element={<DepartmentShow />} />
+                  </Route>
+                  <Route path="/purchase-cart-items">
+                    <Route index element={<PurchaseCartItemList  purchaseCartItems={purchaseCartItems} setPurchaseCartItems={setPurchaseCartItems} /> } />
+                    <Route path="create" element={<PurchaseCartItemCreate purchaseCartItems={purchaseCartItems} setPurchaseCartItems={setPurchaseCartItems} />} />
+                    <Route path="edit/:id" element={<PurchaseCartItemEdit  />} />
+                    <Route path="show/:id" element={<PurchaseCartItemShow />} />
                   </Route>
                   <Route path="*" element={<ErrorComponent />} />
                 </Route>

@@ -6,7 +6,7 @@
 // };
 
 import { Edit, useAutocomplete } from "@refinedev/mui";
-import { Box, TextField, Autocomplete } from "@mui/material";
+import { Box, TextField, Autocomplete, createFilterOptions } from "@mui/material";
 import { useForm } from "@refinedev/react-hook-form";
 import { HttpError, IResourceComponentsProps, useTranslate } from "@refinedev/core";
 import { Controller } from "react-hook-form";
@@ -25,7 +25,7 @@ export const ProductEdit: React.FC<IResourceComponentsProps> = () => {
         formState: { errors, isLoading },
         handleSubmit,
         getValues,
-    } = useForm({});
+    } = useForm<IProduct>({});
 
     const productsData = queryResult?.data?.data;
 
@@ -33,6 +33,7 @@ export const ProductEdit: React.FC<IResourceComponentsProps> = () => {
         resource: "units",
         defaultValue: productsData?.unit?.id,
     });
+    const filterOptions = createFilterOptions({matchFrom: "any", stringify: (option: any) => option.name})
     console.log("isLoading: ", formLoading);
 
 
@@ -76,7 +77,7 @@ export const ProductEdit: React.FC<IResourceComponentsProps> = () => {
                     label={translate("products.fields.name")}
                     name="name"
                 />
-                <TextField
+                {/* <TextField
                     {...register("code", {
                         required: "This field is required",
                     })}
@@ -88,7 +89,7 @@ export const ProductEdit: React.FC<IResourceComponentsProps> = () => {
                     type="text"
                     label={translate("products.fields.code")}
                     name="code"
-                />
+                /> */}
                 <Controller
                     control={control}
                     name="unit"
@@ -99,6 +100,7 @@ export const ProductEdit: React.FC<IResourceComponentsProps> = () => {
                         <Autocomplete
                             {...unitAutocompleteProps}
                             {...field}
+                            filterOptions={filterOptions}
                             onChange={(_, value) => {
                                 field.onChange(value);
                             }}

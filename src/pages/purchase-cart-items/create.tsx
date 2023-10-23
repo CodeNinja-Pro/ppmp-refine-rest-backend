@@ -1,12 +1,12 @@
 // import { IResourceComponentsProps } from "@refinedev/core";
 // import { MuiInferencer } from "@refinedev/inferencer/mui";
 
-// export const PurchaseCartItemsCreate: React.FC<IResourceComponentsProps> = () => {
+// export const PurchaseCartItemCreate: React.FC<IResourceComponentsProps> = () => {
 //     return <MuiInferencer />;
 // };
 
-import { Create, useDataGrid } from "@refinedev/mui";
-import { Box, TextField, useFormControl } from "@mui/material";
+import { Create, useDataGrid, useAutocomplete } from '@refinedev/mui';
+import { Autocomplete, Box, Grid, TextField, useFormControl } from "@mui/material";
 import { useForm } from "@refinedev/react-hook-form";
 import {
   IResourceComponentsProps,
@@ -15,10 +15,11 @@ import {
 } from "@refinedev/core";
 import React from "react";
 import axios from "axios";
+import { IProduct, IPurchaseCartItemsResourceProps } from "../../interfaces";
 
-export const PurchaseCartItemsCreate: React.FC<
-  IResourceComponentsProps
-> = () => {
+export const PurchaseCartItemCreate: React.FC<
+  IPurchaseCartItemsResourceProps
+> = ({ purchaseCartItems = [], setPurchaseCartItems }) => {
   const translate = useTranslate();
   const {
     saveButtonProps,
@@ -29,10 +30,12 @@ export const PurchaseCartItemsCreate: React.FC<
     register,
   } = useForm();
 
-  const {
-    queryResult: { data: product },
-    setShowId,
-  } = useShow({ resource: "products" });
+  const {autocompleteProps, queryResult: {data: productList}} = useAutocomplete<IProduct>({resource: "products"});
+  // const {
+  //   queryResult: { data: product },
+  //   setShowId,
+  // } = useShow({ resource: "products" });
+
 
   const [cartItem, setCartItem] = React.useState({});
   // const {
@@ -50,8 +53,23 @@ export const PurchaseCartItemsCreate: React.FC<
         sx={{ display: "flex", flexDirection: "column" }}
         autoComplete="off"
       >
-        {/* <TextField
-        {...register('product', {})} */}
+        <Autocomplete
+            {...autocompleteProps}
+            getOptionLabel={(item) => item.name}
+            isOptionEqualToValue={(option, value) =>
+                value === undefined || option?.id?.toString() === (value?.id ?? value)?.toString()
+            }
+            placeholder="Select a category"
+            renderInput={(params) => (
+                <TextField
+                    {...params}
+                    label="Category"
+                    margin="normal"
+                    variant="outlined"
+                    required
+                />
+            )}
+        />
       </Box>
     </Create>
   );
