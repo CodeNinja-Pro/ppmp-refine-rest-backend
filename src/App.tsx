@@ -76,7 +76,11 @@ import { UserCreate, UserEdit, UserList, UserShow } from "./pages/users";
 // import { ForgotPasswordPage as ForgotPassword } from "./components/pages/auth/components/forgotPassword";
 // import { LoginPage as Login } from "./components/pages/auth/components/login";
 // import { RegisterPage as Register } from "./components/pages/auth/components/register";
-import { LoginPage as Login, RegisterPage as Register, ForgotPasswordPage as ForgotPassword } from "./components/pages/auth/components";
+import {
+  LoginPage as Login,
+  RegisterPage as Register,
+  ForgotPasswordPage as ForgotPassword,
+} from "./components/pages/auth/components";
 import { Button } from "@mui/material";
 import { TOKEN_KEY, API_URL } from "./constants";
 import {
@@ -130,7 +134,12 @@ import {
   DepartmentShow,
 } from "./pages/departments";
 import AdminDashboard from "./pages/admin-dashboard/AdminDashboard";
-import { PurchaseCartItemCreate, PurchaseCartItemEdit, PurchaseCartItemList, PurchaseCartItemShow } from "./pages/purchase-cart-items";
+import {
+  PurchaseCartItemCreate,
+  PurchaseCartItemEdit,
+  PurchaseCartItemList,
+  PurchaseCartItemShow,
+} from "./pages/purchase-cart-items";
 import { IPurchaseCartItem } from "./interfaces";
 import { PurchaseList, PurchaseShow } from "./pages/purchases";
 
@@ -153,6 +162,13 @@ axiosInstance.interceptors.request.use((request: AxiosRequestConfig) => {
 
 axiosInstance.interceptors.response.use(
   (response) => {
+    if (response?.data.message == "This action is unauthorized.") {
+      const customError: HttpError = {
+        message: response?.data?.message,
+        statusCode: 403,
+      };
+      return Promise.reject(customError);
+    }
     return response;
   },
   (error) => {
@@ -176,8 +192,8 @@ function App() {
   const { t, i18n } = useTranslation();
   const [mutationMode, setMutationMode] =
     React.useState<MutationMode>("pessimistic");
-  const [purchaseCartItems, setPurchaseCartItems] = React.useState<Array<IPurchaseCartItem>>();
-
+  const [purchaseCartItems, setPurchaseCartItems] =
+    React.useState<Array<IPurchaseCartItem>>();
 
   // const {data: permissionsData} = usePermissions();
   // const {data: permissionsData = []} = usePermissions<Array<string>>();
@@ -214,7 +230,7 @@ function App() {
                     return { can: true };
                   } else {
                     return {
-                      can: true,
+                      can: false,
                       reason: "Unauthorized",
                     };
                   }
@@ -226,164 +242,180 @@ function App() {
                   },
                 },
               }}
-              resources={[// {
-              //   name: "blog_posts",
-              //   list: "/blog-posts",
-              //   create: "/blog-posts/create",
-              //   edit: "/blog-posts/edit/:id",
-              //   show: "/blog-posts/show/:id",
-              //   meta: {
-              //     canDelete: true,
-              //     // hide: true
-              //   },
-              // },
-              // {
-              //   name: "role_permissions",
-              //   list: "role_permissions",
-              //   create: "/role_permissions/create",
-              //   edit: "/role_permissions/edit",
-              // },
-              {
-                name: "user-management",
-                meta: {
-                  icon: <ManageAccountsOutlinedIcon />,
+              resources={[
+                // {
+                //   name: "blog_posts",
+                //   list: "/blog-posts",
+                //   create: "/blog-posts/create",
+                //   edit: "/blog-posts/edit/:id",
+                //   show: "/blog-posts/show/:id",
+                //   meta: {
+                //     canDelete: true,
+                //     // hide: true
+                //   },
+                // },
+                // {
+                //   name: "role_permissions",
+                //   list: "role_permissions",
+                //   create: "/role_permissions/create",
+                //   edit: "/role_permissions/edit",
+                // },
+                {
+                  name: "user-management",
+                  meta: {
+                    icon: <ManageAccountsOutlinedIcon />,
+                  },
                 },
-              }, {
-                name: "permissions",
-                list: "/permissions",
-                create: "/permissions/create",
-                edit: "/permissions/edit/:id",
-                show: "/permissions/show/:id",
-                meta: {
-                  canDelete: true,
-                  parent: "user-management",
-                  icon: <LockOutlined />,
+                {
+                  name: "permissions",
+                  list: "/permissions",
+                  create: "/permissions/create",
+                  edit: "/permissions/edit/:id",
+                  show: "/permissions/show/:id",
+                  meta: {
+                    canDelete: true,
+                    parent: "user-management",
+                    icon: <LockOutlined />,
+                  },
                 },
-              }, {
-                name: "roles",
-                list: "/roles",
-                create: "/roles/create",
-                edit: "/roles/edit/:id",
-                meta: {
-                  canDelete: true,
-                  parent: "user-management",
-                  icon: <AccountCircleOutlined />,
+                {
+                  name: "roles",
+                  list: "/roles",
+                  create: "/roles/create",
+                  edit: "/roles/edit/:id",
+                  meta: {
+                    canDelete: true,
+                    parent: "user-management",
+                    icon: <AccountCircleOutlined />,
+                  },
                 },
-              }, {
-                name: "users",
-                list: "/users",
-                create: "/users/create",
-                edit: "/users/edit/:id",
-                show: "/users/show/:id",
-                meta: {
-                  canDelete: true,
-                  parent: "user-management",
-                  icon: <PeopleOutlineRounded />,
+                {
+                  name: "users",
+                  list: "/users",
+                  create: "/users/create",
+                  edit: "/users/edit/:id",
+                  show: "/users/show/:id",
+                  meta: {
+                    canDelete: true,
+                    parent: "user-management",
+                    icon: <PeopleOutlineRounded />,
+                  },
                 },
-              }, {
-                name: "departments",
-                list: "/departments",
-                create: "/departments/create",
-                edit: "/departments/edit/:id",
-                show: "/departments/show/:id",
-                meta: {
-                  icon: <BusinessCenterOutlined />,
-                  canDelete: true
+                {
+                  name: "departments",
+                  list: "/departments",
+                  create: "/departments/create",
+                  edit: "/departments/edit/:id",
+                  show: "/departments/show/:id",
+                  meta: {
+                    icon: <BusinessCenterOutlined />,
+                    canDelete: true,
+                  },
                 },
-              }, {
-                name: "purchase-cart-items",
-                list: "/purchase-cart-items",
-                create: "/purchase-cart-items/create",
-                edit: "/purchase-cart-items/edit/:id",
-                show: "/purchase-cart-items/show/:id",
-                meta: {
-                  canDelete: true,
-                  icon: <AddShoppingCartOutlined />,
+                {
+                  name: "purchase-cart-items",
+                  list: "/purchase-cart-items",
+                  create: "/purchase-cart-items/create",
+                  edit: "/purchase-cart-items/edit/:id",
+                  show: "/purchase-cart-items/show/:id",
+                  meta: {
+                    canDelete: true,
+                    icon: <AddShoppingCartOutlined />,
+                  },
                 },
-              }, {
-                name: "categories",
-                list: "/categories",
-                create: "/categories/create",
-                edit: "/categories/edit/:id",
-                show: "/categories/show/:id",
-                meta: {
-                  canDelete: true,
-                  icon: <CategoryOutlined />,
+                {
+                  name: "categories",
+                  list: "/categories",
+                  create: "/categories/create",
+                  edit: "/categories/edit/:id",
+                  show: "/categories/show/:id",
+                  meta: {
+                    canDelete: true,
+                    icon: <CategoryOutlined />,
+                  },
                 },
-              }, {
-                name: "units",
-                list: "/units",
-                create: "/units/create",
-                edit: "/units/edit/:id",
-                show: "/units/show/:id",
-                meta: {
-                  // hide: true,
-                  canDelete: true,
-                  icon: <ScaleOutlined />,
+                {
+                  name: "units",
+                  list: "/units",
+                  create: "/units/create",
+                  edit: "/units/edit/:id",
+                  show: "/units/show/:id",
+                  meta: {
+                    // hide: true,
+                    canDelete: true,
+                    icon: <ScaleOutlined />,
+                  },
                 },
-              }, {
-                name: "products",
-                list: "/products",
-                create: "/products/create",
-                edit: "/products/edit/:id",
-                show: "/products/show/:id",
-                meta: {
-                  canDelete: true,
-                  icon: <LocalMallOutlined />,
-                  idOnlyPass: true,
+                {
+                  name: "products",
+                  list: "/products",
+                  create: "/products/create",
+                  edit: "/products/edit/:id",
+                  show: "/products/show/:id",
+                  meta: {
+                    canDelete: true,
+                    icon: <LocalMallOutlined />,
+                    idOnlyPass: true,
+                  },
                 },
-              }, {
-                name: "user management",
-              }, {
-                name: "purchase-modes",
-                list: "/purchase-modes",
-                create: "/purchase-modes/create",
-                edit: "/purchase-modes/edit/:id",
-                show: "/purchase-modes/show/:id",
-                meta: {
-                  icon: <ShoppingCartOutlined />,
-                  canDelete: true
+                {
+                  name: "user management",
                 },
-              }, {
-                name: "supply-types",
-                list: "/supply-types",
-                create: "/supply-types/create",
-                edit: "/supply-types/edit/:id",
-                show: "/supply-types/show/:id",
-                meta: {
-                  icon: <LocalShippingOutlined />,
-                  canDelete: true
+                {
+                  name: "purchase-modes",
+                  list: "/purchase-modes",
+                  create: "/purchase-modes/create",
+                  edit: "/purchase-modes/edit/:id",
+                  show: "/purchase-modes/show/:id",
+                  meta: {
+                    icon: <ShoppingCartOutlined />,
+                    canDelete: true,
+                  },
                 },
-              }, {
-                name: "bid-types",
-                list: "/bid-types",
-                create: "/bid-types/create",
-                edit: "/bid-types/edit/:id",
-                show: "/bid-types/show/:id",
-                meta: {
-                  icon: <GavelOutlined />,
-                  canDelete: true
+                {
+                  name: "supply-types",
+                  list: "/supply-types",
+                  create: "/supply-types/create",
+                  edit: "/supply-types/edit/:id",
+                  show: "/supply-types/show/:id",
+                  meta: {
+                    icon: <LocalShippingOutlined />,
+                    canDelete: true,
+                  },
                 },
-              }, {
-                name: "source-of-fundings",
-                list: "/source-of-fundings",
-                create: "/source-of-fundings/create",
-                edit: "/source-of-fundings/edit/:id",
-                show: "/source-of-fundings/show/:id",
-                meta: {
-                  icon: <AttachMoneyOutlined />,
-                  canDelete: true
+                {
+                  name: "bid-types",
+                  list: "/bid-types",
+                  create: "/bid-types/create",
+                  edit: "/bid-types/edit/:id",
+                  show: "/bid-types/show/:id",
+                  meta: {
+                    icon: <GavelOutlined />,
+                    canDelete: true,
+                  },
                 },
-              }, {
-                name: "purchases",
-                list: "/purchases",
-                create: "/purchases/create",
-                edit: "/purchases/edit/:id",
-                show: "/purchases/show/:id",
-                meta: {
-                  icon: <InventoryOutlined />
-                }
-              }]}
+                {
+                  name: "source-of-fundings",
+                  list: "/source-of-fundings",
+                  create: "/source-of-fundings/create",
+                  edit: "/source-of-fundings/edit/:id",
+                  show: "/source-of-fundings/show/:id",
+                  meta: {
+                    icon: <AttachMoneyOutlined />,
+                    canDelete: true,
+                  },
+                },
+                {
+                  name: "purchases",
+                  list: "/purchases",
+                  create: "/purchases/create",
+                  edit: "/purchases/edit/:id",
+                  show: "/purchases/show/:id",
+                  meta: {
+                    icon: <InventoryOutlined />,
+                  },
+                },
+              ]}
               options={{
                 syncWithLocation: true,
                 warnWhenUnsavedChanges: false,
@@ -413,7 +445,7 @@ function App() {
                             onMutationChange={(mode) => setMutationMode(mode)}
                           />
                         )}
-                      Title={({ collapsed }) => (
+                        Title={({ collapsed }) => (
                           <ThemedTitleV2
                             collapsed={collapsed}
                             text="PPMP"
@@ -427,7 +459,7 @@ function App() {
                   }
                 >
                   <Route path="/" element={<AdminDashboard />} />
-                  <Route  path="/permissions">
+                  <Route path="/permissions">
                     <Route index element={<PermissionList />} />
                     <Route path="create" element={<PermissionCreate />} />
                     <Route path="edit/:id" element={<PermissionEdit />} />
@@ -439,7 +471,7 @@ function App() {
                     <Route path="edit/:id" element={<RoleEdit />} />
                     <Route path="show/:id" element={<RoleShow />} />
                   </Route>
-                  <Route  path="/users">
+                  <Route path="/users">
                     <Route index element={<UserList />} />
                     <Route path="create" element={<UserCreate />} />
                     <Route path="edit/:id" element={<UserEdit />} />
@@ -511,15 +543,38 @@ function App() {
                     <Route path="show/:id" element={<DepartmentShow />} />
                   </Route>
                   <Route path="/purchase-cart-items">
-                    <Route index element={<PurchaseCartItemList  purchaseCartItems={purchaseCartItems} setPurchaseCartItems={setPurchaseCartItems} /> } />
-                    <Route path="create" element={<PurchaseCartItemCreate purchaseCartItems={purchaseCartItems} setPurchaseCartItems={setPurchaseCartItems} />} />
-                    <Route path="edit/:id" element={<PurchaseCartItemEdit purchaseCartItems={purchaseCartItems} setPurchaseCartItems={setPurchaseCartItems} />} />
+                    <Route
+                      index
+                      element={
+                        <PurchaseCartItemList
+                          purchaseCartItems={purchaseCartItems}
+                          setPurchaseCartItems={setPurchaseCartItems}
+                        />
+                      }
+                    />
+                    <Route
+                      path="create"
+                      element={
+                        <PurchaseCartItemCreate
+                          purchaseCartItems={purchaseCartItems}
+                          setPurchaseCartItems={setPurchaseCartItems}
+                        />
+                      }
+                    />
+                    <Route
+                      path="edit/:id"
+                      element={
+                        <PurchaseCartItemEdit
+                          purchaseCartItems={purchaseCartItems}
+                          setPurchaseCartItems={setPurchaseCartItems}
+                        />
+                      }
+                    />
                     <Route path="show/:id" element={<PurchaseCartItemShow />} />
                   </Route>
                   <Route path="/purchases">
                     <Route index element={<PurchaseList />} />
                     <Route path="show/:id" element={<PurchaseShow />} />
-
                   </Route>
                   <Route path="*" element={<ErrorComponent />} />
                 </Route>

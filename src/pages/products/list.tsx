@@ -13,13 +13,46 @@ import {
     DeleteButton,
     List,
     DateField,
+    ImportButton,
+    ExportButton,
 } from "@refinedev/mui";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { IResourceComponentsProps, useTranslate } from "@refinedev/core";
+import { IResourceComponentsProps, useExport, useImport, useTranslate } from "@refinedev/core";
 import DataGridComp, { createdAtColDef, idColDef, nameColDef } from "../../components/DataGridComp";
+import { IProduct } from "../../interfaces";
 
 export const ProductList: React.FC<IResourceComponentsProps> = () => {
     const translate = useTranslate();
+    const { triggerExport, isLoading: exportLoading } = useExport<IProduct>({
+        mapData: (item) => {
+            return {
+                id: item.id,
+                name: item.name,
+                IPSAS_code: item.IPSAS_code,
+                description: item.description,
+                general_specification: item.general_specification,
+                unit: item.unit.name,
+                unit_cost: item.unit_cost,
+                created_at: item.created_at
+            };
+        },
+    });
+
+    const importProps = useImport<IProduct>({
+        mapData: (item) => {
+            return {
+                id: item.id,
+                name: item.name,
+                IPSAS_code: item.IPSAS_code,
+                description: item.description,
+                general_specification: item.general_specification,
+                unit: item.unit.name,
+                unit_cost: item.unit_cost,
+                created_at: item.created_at
+            };
+        },
+    });
+
     const { dataGridProps } = useDataGrid();
     // debugger;
 
@@ -117,7 +150,7 @@ export const ProductList: React.FC<IResourceComponentsProps> = () => {
     );
 
     return (
-        <List>
+        <List headerButtons={({defaultButtons}) => <>{defaultButtons} <ImportButton variant="contained"{...importProps} /><ExportButton variant="contained" onClick={triggerExport} loading={exportLoading} /></>}>
             <DataGridComp {...dataGridProps} columns={columns} autoHeight />
         </List>
     );

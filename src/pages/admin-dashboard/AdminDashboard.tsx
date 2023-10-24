@@ -4,6 +4,8 @@ import { styled } from '@mui/material/styles';
 import ButtonBase from '@mui/material/ButtonBase';
 import React from 'react'
 import { Link } from 'react-router-dom';
+import { useGetIdentity, usePermissions } from '@refinedev/core';
+import { IUserIdentity } from '../../interfaces';
 
 const style = {
     // background:
@@ -33,20 +35,20 @@ const images = [
   {
     url: '/images/buttons/user_management.jpg',
     title: 'User Management',
-    width: '40%',
+    width: '33.3%',
     to: "/users"
   },
   {
     url: '/images/buttons/product_management.jpg',
     title: 'Product Management',
-    width: '30%',
-    to: "products"
+    width: '33.3%',
+    to: "/products"
   },
   {
     url: '/images/buttons/purchase_cart.jpg',
     title: 'Purchase Cart',
-    width: '30%',
-    to: "purchase-cart-items"
+    width: '33.3%',
+    to: "/purchase-cart-items"
   },
 ];
 
@@ -115,15 +117,18 @@ const ImageMarked = styled('span')(({ theme }) => ({
 }));
 
 export  function ButtonBaseDemo() {
+ const permissions: string[] = usePermissions().data as string[];
+  
   return (
-    <Box sx={{ display: 'flex', flexWrap: 'wrap', minWidth: 300, width: '100%' }}>
+    <Box sx={{ display: 'flex', flexWrap: 'wrap', minWidth: 300, width: '100%', justifyContent: "center" }}>
       {images.map((image) => (
-        
-        <ImageButton
+        permissions?.includes(`${image.to.substring(1)}-list`) &&
+        (<ImageButton
           focusRipple
           key={image.title}
           style={{
             width: image.width,
+            borderRadius: "80%"
           }}
         >
             <Link to={image.to}>
@@ -148,7 +153,7 @@ export  function ButtonBaseDemo() {
           </Image>
         </Link>
 
-        </ImageButton>
+        </ImageButton>)
       ))}
     </Box>
   );
