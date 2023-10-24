@@ -223,170 +223,161 @@ function App() {
                   },
                 },
               }}
-              resources={[
-                // {
-                //   name: "blog_posts",
-                //   list: "/blog-posts",
-                //   create: "/blog-posts/create",
-                //   edit: "/blog-posts/edit/:id",
-                //   show: "/blog-posts/show/:id",
-                //   meta: {
-                //     canDelete: true,
-                //     // hide: true
-                //   },
-                // },
-                // {
-                //   name: "role_permissions",
-                //   list: "role_permissions",
-                //   create: "/role_permissions/create",
-                //   edit: "/role_permissions/edit",
-                // },
-                {
-                  name: "User Management",
-                  meta: {
-                    icon: <ManageAccountsOutlinedIcon />,
-                  },
+              resources={[// {
+              //   name: "blog_posts",
+              //   list: "/blog-posts",
+              //   create: "/blog-posts/create",
+              //   edit: "/blog-posts/edit/:id",
+              //   show: "/blog-posts/show/:id",
+              //   meta: {
+              //     canDelete: true,
+              //     // hide: true
+              //   },
+              // },
+              // {
+              //   name: "role_permissions",
+              //   list: "role_permissions",
+              //   create: "/role_permissions/create",
+              //   edit: "/role_permissions/edit",
+              // },
+              {
+                name: "User Management",
+                meta: {
+                  icon: <ManageAccountsOutlinedIcon />,
                 },
-                {
-                  name: "permissions",
-                  list: "/permissions",
-                  create: "/permissions/create",
-                  edit: "/permissions/edit/:id",
-                  show: "/permissions/show/:id",
-                  meta: {
-                    canDelete: true,
-                    parent: "User Management",
-                    icon: <LockOutlined />,
-                  },
+              }, {
+                name: "permissions",
+                list: "/permissions",
+                create: "/permissions/create",
+                edit: "/permissions/edit/:id",
+                show: "/permissions/show/:id",
+                meta: {
+                  canDelete: true,
+                  parent: "User Management",
+                  icon: <LockOutlined />,
                 },
-                {
-                  name: "roles",
-                  list: "/roles",
-                  create: "/roles/create",
-                  edit: "/roles/edit/:id",
-                  meta: {
-                    canDelete: true,
-                    parent: "User Management",
-                    icon: <AccountCircleOutlined />,
-                  },
+              }, {
+                name: "roles",
+                list: "/roles",
+                create: "/roles/create",
+                edit: "/roles/edit/:id",
+                meta: {
+                  canDelete: true,
+                  parent: "User Management",
+                  icon: <AccountCircleOutlined />,
                 },
-                {
-                  name: "users",
-                  list: "/users",
-                  create: "/users/create",
-                  edit: "/users/edit/:id",
-                  show: "/users/show/:id",
-                  meta: {
-                    canDelete: true,
-                    parent: "User Management",
-                    icon: <PeopleOutlineRounded />,
-                  },
+              }, {
+                name: "users",
+                list: "/users",
+                create: "/users/create",
+                edit: "/users/edit/:id",
+                show: "/users/show/:id",
+                meta: {
+                  canDelete: true,
+                  parent: "User Management",
+                  icon: <PeopleOutlineRounded />,
                 },
-                {
-                  name: "departments",
-                  list: "/departments",
-                  create: "/departments/create",
-                  edit: "/departments/edit/:id",
-                  show: "/departments/show/:id",
-                  meta: {
-                    icon: <BusinessCenterOutlined />,
-                    canDelete: true
-                  },
+              }, {
+                name: "departments",
+                list: "/departments",
+                create: "/departments/create",
+                edit: "/departments/edit/:id",
+                show: "/departments/show/:id",
+                meta: {
+                  icon: <BusinessCenterOutlined />,
+                  canDelete: true
                 },
-                {
-                  name: "purchase-cart-items",
-                  list: "/purchase-cart-items",
-                  create: "/purchase-cart-items/create",
-                  edit: "/purchase-cart-items/edit/:id",
-                  show: "/purchase-cart-items/show/:id",
-                  meta: {
-                    canDelete: true,
-                    icon: <AddShoppingCartOutlined />,
-                  },
+              }, {
+                name: "purchase-cart-items",
+                list: "/purchase-cart-items",
+                create: "/purchase-cart-items/create",
+                edit: "/purchase-cart-items/edit/:id",
+                show: "/purchase-cart-items/show/:id",
+                meta: {
+                  canDelete: true,
+                  icon: <AddShoppingCartOutlined />,
                 },
-                {
-                  name: "categories",
-                  list: "/categories",
-                  create: "/categories/create",
-                  edit: "/categories/edit/:id",
-                  show: "/categories/show/:id",
-                  meta: {
-                    canDelete: true,
-                    icon: <CategoryOutlined />,
-                  },
+              }, {
+                name: "categories",
+                list: "/categories",
+                create: "/categories/create",
+                edit: "/categories/edit/:id",
+                show: "/categories/show/:id",
+                meta: {
+                  canDelete: true,
+                  icon: <CategoryOutlined />,
                 },
-                {
-                  name: "units",
-                  list: "/units",
-                  create: "/units/create",
-                  edit: "/units/edit/:id",
-                  show: "/units/show/:id",
-                  meta: {
-                    // hide: true,
-                    canDelete: true,
-                    icon: <ScaleOutlined />,
-                  },
+              }, {
+                name: "units",
+                list: "/units",
+                create: "/units/create",
+                edit: "/units/edit/:id",
+                show: "/units/show/:id",
+                meta: {
+                  // hide: true,
+                  canDelete: true,
+                  icon: <ScaleOutlined />,
                 },
-                {
-                  name: "products",
-                  list: "/products",
-                  create: "/products/create",
-                  edit: "/products/edit/:id",
-                  show: "/products/show/:id",
-                  meta: {
-                    canDelete: true,
-                    icon: <LocalMallOutlined />,
-                    idOnlyPass: true,
-                  },
+              }, {
+                name: "products",
+                list: "/products",
+                create: "/products/create",
+                edit: "/products/edit/:id",
+                show: "/products/show/:id",
+                meta: {
+                  canDelete: true,
+                  icon: <LocalMallOutlined />,
+                  idOnlyPass: true,
                 },
-                {
-                  name: "user management",
+              }, {
+                name: "user management",
+              }, {
+                name: "purchase-modes",
+                list: "/purchase-modes",
+                create: "/purchase-modes/create",
+                edit: "/purchase-modes/edit/:id",
+                show: "/purchase-modes/show/:id",
+                meta: {
+                  icon: <ShoppingCartOutlined />,
+                  canDelete: true
                 },
-                {
-                  name: "purchase-modes",
-                  list: "/purchase-modes",
-                  create: "/purchase-modes/create",
-                  edit: "/purchase-modes/edit/:id",
-                  show: "/purchase-modes/show/:id",
-                  meta: {
-                    icon: <ShoppingCartOutlined />,
-                    canDelete: true
-                  },
+              }, {
+                name: "supply-types",
+                list: "/supply-types",
+                create: "/supply-types/create",
+                edit: "/supply-types/edit/:id",
+                show: "/supply-types/show/:id",
+                meta: {
+                  icon: <LocalShippingOutlined />,
+                  canDelete: true
                 },
-                {
-                  name: "supply-types",
-                  list: "/supply-types",
-                  create: "/supply-types/create",
-                  edit: "/supply-types/edit/:id",
-                  show: "/supply-types/show/:id",
-                  meta: {
-                    icon: <LocalShippingOutlined />,
-                    canDelete: true
-                  },
+              }, {
+                name: "bid-types",
+                list: "/bid-types",
+                create: "/bid-types/create",
+                edit: "/bid-types/edit/:id",
+                show: "/bid-types/show/:id",
+                meta: {
+                  icon: <GavelOutlined />,
+                  canDelete: true
                 },
-                {
-                  name: "bid-types",
-                  list: "/bid-types",
-                  create: "/bid-types/create",
-                  edit: "/bid-types/edit/:id",
-                  show: "/bid-types/show/:id",
-                  meta: {
-                    icon: <GavelOutlined />,
-                    canDelete: true
-                  },
+              }, {
+                name: "source-of-fundings",
+                list: "/source-of-fundings",
+                create: "/source-of-fundings/create",
+                edit: "/source-of-fundings/edit/:id",
+                show: "/source-of-fundings/show/:id",
+                meta: {
+                  icon: <AttachMoneyOutlined />,
+                  canDelete: true
                 },
-                {
-                  name: "source-of-fundings",
-                  list: "/source-of-fundings",
-                  create: "/source-of-fundings/create",
-                  edit: "/source-of-fundings/edit/:id",
-                  show: "/source-of-fundings/show/:id",
-                  meta: {
-                    icon: <AttachMoneyOutlined />,
-                    canDelete: true
-                  },
-                },
-              ]}
+              }, {
+                name: "purchases",
+                list: "/purchases",
+                create: "/purchases/create",
+                edit: "/purchases/edit/:id",
+                show: "/purchases/show/:id"
+              }]}
               options={{
                 syncWithLocation: true,
                 warnWhenUnsavedChanges: false,

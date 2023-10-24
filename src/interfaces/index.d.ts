@@ -87,6 +87,12 @@ export interface IPurchaseCartItem {
     unit_cost: number;
     unit_of_measure: IUnit;
     total_amount: number;
+    source_of_funding: ISourceOfFunding
+}
+export interface ISourceOfFunding {
+    id: number;
+    name: string;
+    created_at: string;
 }
 // export interface IPurchaseCartItem {
 //     product

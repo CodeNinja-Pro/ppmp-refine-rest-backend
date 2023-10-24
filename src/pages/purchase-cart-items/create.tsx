@@ -102,13 +102,13 @@ export const PurchaseCartItemCreate: React.FC<
 
 
 
-  console.log("errors: ", errors);
-  console.log("sdfsdfsdf", getValues())
+  // console.log("errors: ", errors);
+  // console.log("sdfsdfsdf", getValues())
   // setValue("total_amount", watchQty * watchUnit || 0);
   // setValue("description", watchProduct.description);
   // setValue("IPSAS_code", watchProduct.IPSAS_code);
   saveButtonProps.onClick = (event) => {
-    debugger;
+    // debugger;
     event.preventDefault();
     handleSubmit(async (data) => {
       data.id=purchaseCartItems.length+1;
@@ -118,7 +118,7 @@ export const PurchaseCartItemCreate: React.FC<
     })()
   }
 
-console.log(errors);
+// console.log(errors);
   return (
     <Create isLoading={formLoading} saveButtonProps={saveButtonProps}>
       <Box
