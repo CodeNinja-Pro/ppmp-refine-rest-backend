@@ -234,6 +234,17 @@
       "created_at": "Created At"
     }
   },
+  "purchase_cart_items": {
+    "fields": {
+      "product_name": "Product Name",
+      "supply_type":"Supply Type",
+      "source_of_funding":"Funding Src",
+      "method":"Method",
+      "qty": "Qty",
+      "purchase_mode":"Purchaes Mode",
+      "total_amount": "Total Price"
+    }
+  },
   "purchases": {
     "purchases": "Purchase Request Status",
     "fields": {

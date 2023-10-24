@@ -512,7 +512,7 @@ function App() {
                   <Route path="/purchase-cart-items">
                     <Route index element={<PurchaseCartItemList  purchaseCartItems={purchaseCartItems} setPurchaseCartItems={setPurchaseCartItems} /> } />
                     <Route path="create" element={<PurchaseCartItemCreate purchaseCartItems={purchaseCartItems} setPurchaseCartItems={setPurchaseCartItems} />} />
-                    <Route path="edit/:id" element={<PurchaseCartItemEdit  />} />
+                    <Route path="edit/:id" element={<PurchaseCartItemEdit purchaseCartItems={purchaseCartItems} setPurchaseCartItems={setPurchaseCartItems} />} />
                     <Route path="show/:id" element={<PurchaseCartItemShow />} />
                   </Route>
                   <Route path="/purchases">

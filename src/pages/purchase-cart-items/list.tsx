@@ -168,9 +168,14 @@ export const PurchaseCartItemList: React.FC<
         renderCell: function render({ row }) {
           return (
             <>
-              <EditButton hideText recordItemId={row.id} />
+              <EditButton hideText recordItemId={row.id}  />
               <ShowButton hideText recordItemId={row.id} />
-              <DeleteButton hideText recordItemId={row.id} />
+              <DeleteButton hideText recordItemId={row.id} onClick={(e) => {
+                e.preventDefault();
+                // const newPurchaseCartItems = purchaseCartItems.filter(item => item.id !== row.id);
+                const newPurchaseCartItems = purchaseCartItems.toSpliced(row.id-1, 1);
+                setPurchaseCartItems(newPurchaseCartItems);
+              }}/>
             </>
           );
         },

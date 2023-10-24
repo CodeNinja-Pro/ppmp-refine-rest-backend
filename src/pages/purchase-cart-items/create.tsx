@@ -87,17 +87,17 @@ export const PurchaseCartItemCreate: React.FC<
 
 
   React.useEffect(() => {
-    setValue("unit", watchProduct?.unit?.name, { shouldValidate: true});
-    setValue("description", watchProduct?.description, {shouldValidate: true});
-    setValue("IPSAS_code", watchProduct?.IPSAS_code, {shouldValidate: true});
-    setValue("general_specification", watchProduct?.general_specification, {shouldValidate: true});
-    setValue("description", watchProduct?.description, {shouldValidate: true});
-    setValue("unit_cost", watchProduct?.unit_cost, {shouldValidate: true});
+    setValue("unit", watchProduct?.unit?.name, { shouldValidate: dirtyFields?.unit ? true : false});
+    setValue("description", watchProduct?.description, { shouldValidate: dirtyFields?.unit ? true : false});
+    setValue("IPSAS_code", watchProduct?.IPSAS_code, { shouldValidate: dirtyFields?.unit ? true : false});
+    setValue("general_specification", watchProduct?.general_specification, { shouldValidate: dirtyFields?.unit ? true : false});
+    setValue("description", watchProduct?.description, { shouldValidate: dirtyFields?.unit ? true : false});
+    setValue("unit_cost", watchProduct?.unit_cost, { shouldValidate: dirtyFields?.unit ? true : false});
 
   }, [watchProduct])
   React.useEffect(() => {
 
-    setValue("total_amount", watchQty * watchProduct?.unit_cost, {shouldValidate: true})
+    setValue("total_amount", watchQty * watchProduct?.unit_cost, { shouldValidate: dirtyFields?.unit ? true : false})
   }, [watchQty, watchProduct])
 
 
@@ -159,7 +159,7 @@ export const PurchaseCartItemCreate: React.FC<
                     <TextField
                       {...params}
                       name="product"
-                      label={translate("products.fields.name")}
+                      label={translate("purchase_cart_items.fields.product_name")}
                       margin="normal"
                       variant="outlined"
                       error={!!(errors as any)?.product}
@@ -201,7 +201,7 @@ export const PurchaseCartItemCreate: React.FC<
                     <TextField
                       {...params}
                       name="supply_type"
-                      label={translate("products.fields.supply_type")}
+                      label={translate("purchase_cart_items.fields.supply_type")}
                       margin="normal"
                       variant="outlined"
                       error={!!(errors as any)?.supply_type}
@@ -243,7 +243,7 @@ export const PurchaseCartItemCreate: React.FC<
                   renderInput={(params) => (
                     <TextField
                       {...params}
-                      label={translate("products.fields.source_of_funding")}
+                      label={translate("purchase_cart_items.fields.source_of_funding")}
                       margin="normal"
                       variant="outlined"
                       error={!!(errors as any)?.source_of_funding}
@@ -269,7 +269,7 @@ export const PurchaseCartItemCreate: React.FC<
               fullWidth
               InputLabelProps={{ shrink: true }}
               type="text"
-              label={translate("products.fields.method")}
+              label={translate("purchase_cart_items.fields.method")}
             />
           </Grid>
           {/* description */}
@@ -333,7 +333,7 @@ export const PurchaseCartItemCreate: React.FC<
                   renderInput={(params) => (
                     <TextField
                       {...params}
-                      label={translate("products.fields.purchase_mode")}
+                      label={translate("purchase_cart_items.fields.purchase_mode")}
                       margin="normal"
                       variant="outlined"
                       error={!!(errors as any)?.purchase_mode}
@@ -376,7 +376,7 @@ export const PurchaseCartItemCreate: React.FC<
               type="text"
               rows={10}
               minRows={10}
-              label={translate("products.fields.qty")}
+              label={translate("purchase_cart_items.fields.qty")}
             />
           </Grid>
           <Grid xs={6} md={3} item>
