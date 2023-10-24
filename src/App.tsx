@@ -86,6 +86,7 @@ import {
   CategoryOutlined,
   Gavel,
   GavelOutlined,
+  InventoryOutlined,
   LocalMallOutlined,
   LocalShippingOutlined,
   LockOutlined,
@@ -130,6 +131,7 @@ import {
 import AdminDashboard from "./pages/admin-dashboard/AdminDashboard";
 import { PurchaseCartItemCreate, PurchaseCartItemEdit, PurchaseCartItemList, PurchaseCartItemShow } from "./pages/purchase-cart-items";
 import { IPurchaseCartItem } from "./interfaces";
+import { PurchaseList, PurchaseShow } from "./pages/purchases";
 
 export const axiosInstance = axios.create();
 
@@ -376,7 +378,10 @@ function App() {
                 list: "/purchases",
                 create: "/purchases/create",
                 edit: "/purchases/edit/:id",
-                show: "/purchases/show/:id"
+                show: "/purchases/show/:id",
+                meta: {
+                  icon: <InventoryOutlined />
+                }
               }]}
               options={{
                 syncWithLocation: true,
@@ -509,6 +514,11 @@ function App() {
                     <Route path="create" element={<PurchaseCartItemCreate purchaseCartItems={purchaseCartItems} setPurchaseCartItems={setPurchaseCartItems} />} />
                     <Route path="edit/:id" element={<PurchaseCartItemEdit  />} />
                     <Route path="show/:id" element={<PurchaseCartItemShow />} />
+                  </Route>
+                  <Route path="/purchases">
+                    <Route index element={<PurchaseList />} />
+                    <Route path="show/:id" element={<PurchaseShow />} />
+
                   </Route>
                   <Route path="*" element={<ErrorComponent />} />
                 </Route>

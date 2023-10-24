@@ -64,16 +64,20 @@ export const nameColDef = (dataGridProps: any, headerName: string="Name") => (
     }
 );
 
-export const createdAtColDef = (dataGridProps: any, headerName: string="Created At") => (
+export const createdAtColDef = (dataGridProps: any, headerName: string="Created At", options) => {
+  return (
     {
         field: "created_at",
         headerName,
         minWidth: 150,
         type: "text",
         flex: 0.5,
+        
         renderCell: ({value}: {value: any}) => (
-            <DateField value={value} />
-        )
+            <DateField 
+            format="LLL" value={value} />
+        ), 
+        ...options
     }
-);
+)};
 

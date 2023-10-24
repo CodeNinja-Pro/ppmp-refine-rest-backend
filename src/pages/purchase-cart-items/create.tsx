@@ -36,7 +36,7 @@ export const PurchaseCartItemCreate: React.FC<
     control,
     handleSubmit,
     refineCore: { formLoading, onFinish, redirect },
-    formState: { isLoading, errors },
+    formState: { isLoading, errors, dirtyFields },
     register,
     setValue,
     getValues,
@@ -81,13 +81,13 @@ export const PurchaseCartItemCreate: React.FC<
   //   console.log(value, name, type);
   // });
 
-
   const watchQty = watch("qty", 1);
   const watchUnit = watch("unit", 0);
   const watchProduct = watch("product", {});
 
+
   React.useEffect(() => {
-    setValue("unit", watchProduct?.unit?.name, {shouldValidate: true});
+    setValue("unit", watchProduct?.unit?.name, { shouldValidate: true});
     setValue("description", watchProduct?.description, {shouldValidate: true});
     setValue("IPSAS_code", watchProduct?.IPSAS_code, {shouldValidate: true});
     setValue("general_specification", watchProduct?.general_specification, {shouldValidate: true});
@@ -99,6 +99,8 @@ export const PurchaseCartItemCreate: React.FC<
 
     setValue("total_amount", watchQty * watchProduct?.unit_cost, {shouldValidate: true})
   }, [watchQty, watchProduct])
+
+
 
 
 

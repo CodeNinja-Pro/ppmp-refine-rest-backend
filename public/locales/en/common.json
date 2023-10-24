@@ -234,6 +234,24 @@
       "created_at": "Created At"
     }
   },
+  "purchases": {
+    "purchases": "Purchase Request Status",
+    "fields": {
+      "id": "Id",
+      "name": "Name",
+      "created_at":"Created At",
+      "product": "Product Name",
+      "department": "Department",
+      "supply_type": "Supply Type",
+      "purchase_mode": "Purchaes Mode",
+      "qty": "Qty",
+      "item_description": "Desc",
+      "method": "Method",
+      "created_by": "Prepared By",
+      "status": "Status",
+      "source_of_funding": "Funding Src"
+    }
+  },
   "documentTitle": {
     "default": "refine",
     "suffix": " | refine",

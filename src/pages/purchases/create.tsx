@@ -1,6 +1,6 @@
 import { IResourceComponentsProps } from "@refinedev/core";
 import { MuiInferencer } from "@refinedev/inferencer/mui";
 
-export const PurchasesCreate: React.FC<IResourceComponentsProps> = () => {
+export const PurchaseCreate: React.FC<IResourceComponentsProps> = () => {
     return <MuiInferencer />;
 };

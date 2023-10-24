@@ -186,7 +186,7 @@ export const PurchaseCartItemList: React.FC<
     <List headerButtons={({defaultButtons}) => (
         <>
         {defaultButtons}
-        <SaveButton startIcon={<SendOutlined />} onClick={(event) => {
+        <SaveButton color="info" startIcon={<SendOutlined />} onClick={(event) => {
             event.preventDefault();
             // const {onFinish, formLoading, redirect} = useForm({resource: "purchases", action: "create"});
             purchaseCartItems.map((value, index) => {
