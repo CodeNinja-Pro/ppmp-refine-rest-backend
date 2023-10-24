@@ -81,9 +81,9 @@ export const UserList: React.FC<IResourceComponentsProps> = () => {
       },
       {
         field: "department_id",
-        flex: 1,
+        flex: 0.5,
         headerName: translate("users.fields.department_id"),
-        minWidth: 300,
+        minWidth: 150,
         renderCell: function render({ value }) {
           return departmentIsLoading ? (
             <>Loading...</>

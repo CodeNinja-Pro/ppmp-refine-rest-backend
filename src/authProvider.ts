@@ -33,6 +33,20 @@ export const authProvider = (axiosInstance: AxiosInstance = defaultAxiosInstance
       };
     }
   },
+  register: async (user: {email: string, password: string, name: string}) => {
+    const data = await axiosInstance.post(`${AUTH_URL}/register`, {...user});
+    if (data?.data?.user?.id > 0) {
+      return {
+        success: true,
+        redirectTo: "/login"
+      }
+    }
+    else {
+      return {
+        success: false,
+      }
+    }
+  },
   logout: async (props) => {
     localStorage.removeItem(TOKEN_KEY);
     localStorage.removeItem(USER_KEY)

@@ -69,7 +69,7 @@ export const createdAtColDef = (dataGridProps: any, headerName: string="Created 
     {
         field: "created_at",
         headerName,
-        minWidth: 150,
+        minWidth: 180,
         type: "text",
         flex: 0.5,
         

@@ -181,6 +181,9 @@
       "created_at":"Created At"
     }
   },
+  "user-management": {
+    "user-management": "User Management"
+  },
   "users": {
     "users": "Users",
     "fields": {

@@ -12,6 +12,7 @@ import { useForm } from "@refinedev/react-hook-form";
 import { IResourceComponentsProps, useTranslate } from "@refinedev/core";
 import { Controller } from "react-hook-form";
 import LoadingComp from "../../components/common/LoadingComp";
+import { filterOptions } from "../../utils/filterOptions";
 
 export const UserEdit: React.FC<IResourceComponentsProps> = () => {
     const translate = useTranslate();
@@ -94,6 +95,8 @@ export const UserEdit: React.FC<IResourceComponentsProps> = () => {
                         <Autocomplete
                             {...roleAutocompleteProps}
                             {...field}
+                        filterOptions={filterOptions}
+
                             multiple
                             onChange={(_, value) => {
                                 field.onChange(value);

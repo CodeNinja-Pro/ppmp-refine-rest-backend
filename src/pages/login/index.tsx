@@ -22,6 +22,7 @@ export const Login = () => {
           name: "google",
           icon: <Google />,
           label: "Sign in with Google",
+          
       },
       {
           name: "github",

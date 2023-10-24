@@ -73,9 +73,10 @@ import {
 } from "./pages/permissions";
 import { UserCreate, UserEdit, UserList, UserShow } from "./pages/users";
 
-import { ForgotPassword } from "./pages/forgotPassword";
-import { Login } from "./pages/login";
-import { Register } from "./pages/register";
+// import { ForgotPasswordPage as ForgotPassword } from "./components/pages/auth/components/forgotPassword";
+// import { LoginPage as Login } from "./components/pages/auth/components/login";
+// import { RegisterPage as Register } from "./components/pages/auth/components/register";
+import { LoginPage as Login, RegisterPage as Register, ForgotPasswordPage as ForgotPassword } from "./components/pages/auth/components";
 import { Button } from "@mui/material";
 import { TOKEN_KEY, API_URL } from "./constants";
 import {
@@ -243,7 +244,7 @@ function App() {
               //   edit: "/role_permissions/edit",
               // },
               {
-                name: "User Management",
+                name: "user-management",
                 meta: {
                   icon: <ManageAccountsOutlinedIcon />,
                 },
@@ -255,7 +256,7 @@ function App() {
                 show: "/permissions/show/:id",
                 meta: {
                   canDelete: true,
-                  parent: "User Management",
+                  parent: "user-management",
                   icon: <LockOutlined />,
                 },
               }, {
@@ -265,7 +266,7 @@ function App() {
                 edit: "/roles/edit/:id",
                 meta: {
                   canDelete: true,
-                  parent: "User Management",
+                  parent: "user-management",
                   icon: <AccountCircleOutlined />,
                 },
               }, {
@@ -276,7 +277,7 @@ function App() {
                 show: "/users/show/:id",
                 meta: {
                   canDelete: true,
-                  parent: "User Management",
+                  parent: "user-management",
                   icon: <PeopleOutlineRounded />,
                 },
               }, {
