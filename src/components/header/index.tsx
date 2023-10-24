@@ -138,8 +138,8 @@ export const Header: React.FC<HeaderProps> = ({
                 {user?.name && (
                   <Tooltip arrow title={<Stack>
                     <Badge>{user?.email}</Badge>
-                    {user?.roles.map(role => (
-                      <Chip color="warning" size="small" variant="outlined" label={role.name}></Chip>
+                    {user?.roles.map((role, index) => (
+                      <Chip key={index}color="warning" size="small" variant="outlined" label={role.name}></Chip>
                     ))}
                   </Stack>}>
                     <Typography
